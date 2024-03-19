@@ -1,6 +1,6 @@
 local M = {}
-local cfg = vim.g.onedark_config
-local c = require 'onedark.colors'
+local cfg = vim.g.caironoon_config
+local c = require 'caironoon.colors'
 
 function M.setup()
     if not cfg.term_colors then return end

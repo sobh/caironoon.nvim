@@ -1,5 +1,5 @@
-local c = require('onedark.colors')
-local cfg = vim.g.onedark_config
+local c = require('caironoon.colors')
+local cfg = vim.g.caironoon_config
 local colors = {
     bg = c.bg0,
     fg = c.fg,
