@@ -43,7 +43,7 @@ end
 
 local default_config = {
     -- Main options --
-    style = 'dark',    -- choose between 'dark', 'light'
+    style = 'light',    -- choose between 'dark', 'light'
     toggle_style_key = nil,
     toggle_style_list = M.styles_list,
     transparent = false,     -- don't set background
@@ -53,10 +53,10 @@ local default_config = {
 
     -- Changing Formats --
     code_style = {
-        comments = 'italic',
-        keywords = 'none',
-        functions = 'none',
-        strings = 'none',
+        comments  = 'none',
+        keywords  = 'italic',
+        functions = 'bold',
+        strings   = 'none',
         variables = 'none'
     },
 
