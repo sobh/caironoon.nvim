@@ -12,10 +12,9 @@
 *For latest [TreeSitter](https://github.com/nvim-treesitter/nvim-treesitter) syntax highlight, upgraded to NeoVim 0.8.0 or later built with tree-sitter 0.20.3+*
 
 ### Features
-  <!-- * 8 theme styles (One Dark + 5 variants) and (One Light + 1 variant) -->
+  * Light, and Dark variants set by the 'background' option.
   <!-- * Supporting multiple plugins with hand picked proper colors -->
   <!-- * Customize `Colors`, `Highlights` and `Code style` of the theme as you like (Refer [Customization](#customization)) -->
-  <!-- * Toggle the theme style without exiting Neovim using `toggle_style_key` (Refer [Config](#default-configuration)) -->
 
 ## Themes
 
@@ -45,45 +44,18 @@ require('caironoon').load()
 colorscheme caironoon
 ```
 
-### Change default style
-
-```lua
--- Lua
-require('caironoon').setup {
-    style = 'darker'
-}
-require('caironoon').load()
-```
-
-```vim
-" Vim
-let g:caironoon_config = {
-    \ 'style': 'darker',
-\}
-colorscheme caironoon
-```
-
-> **Options:**  dark, light
-
 ## Default Configuration
 
 ```lua
 -- Lua
 require('caironoon').setup  {
     -- Main options --
-    style = 'light', -- Default theme style. Choose between 'dark', and 'light'
-    transparent = false,  -- Show/hide background
-    term_colors = true, -- Change terminal color as per the selected theme style
-    ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
-    cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
+    transparent = false,     -- don't set background
+    term_colors = true,      -- if true enable the terminal
+    ending_tildes = false,    -- show the end-of-buffer tildes
+    cmp_itemkind_reverse = false,    -- reverse item kind highlights in cmp menu
 
-    -- toggle theme style ---
-    toggle_style_key = nil, -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
-    toggle_style_list = {'dark', 'light'}, -- List of styles to toggle between
-
-    -- Change code style ---
-    -- Options are italic, bold, underline, none
-    -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
+    -- Changing Formats --
     code_style = {
         comments  = 'none',
         keywords  = 'italic',
@@ -94,17 +66,17 @@ require('caironoon').setup  {
 
     -- Lualine options --
     lualine = {
-        transparent = false, -- lualine center bar transparency
+        transparent = false, -- center bar (c) transparency
     },
 
     -- Custom Highlights --
     colors = {}, -- Override default colors
     highlights = {}, -- Override highlight groups
 
-    -- Plugins Config --
+    -- Plugins Related --
     diagnostics = {
         darker = true, -- darker colors for diagnostic
-        undercurl = true,   -- use undercurl instead of underline for diagnostics
+        undercurl = true,   -- use undercurl for diagnostics
         background = true,    -- use background color for virtual text
     },
 }
@@ -118,8 +90,6 @@ Onedark can be configured also with Vimscript, using the global dictionary `g:ca
 Example:
 ``` vim
 let g:caironoon_config = {
-  \ 'style': 'deep',
-  \ 'toggle_style_key': '<leader>ts',
   \ 'ending_tildes': v:true,
   \ 'diagnostics': {
     \ 'darker': v:false,
