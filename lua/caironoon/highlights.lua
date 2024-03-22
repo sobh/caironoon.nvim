@@ -25,7 +25,7 @@ local colors = {
     Orange    = {fg = p.orange},
     Green     = {fg = p.green},
     Blue      = {fg = p.blue},
-    Purple    = {fg = p.purple}
+    Purple    = {fg = p.grape}
 }
 hl.common = {
     Normal = {fg = p.fg, bg = cfg.transparent and p.none or p.bg0},
@@ -75,7 +75,7 @@ hl.common = {
     SpellBad = {fg = p.none, fmt = "undercurl", sp = p.red},
     SpellCap = {fg = p.none, fmt = "undercurl", sp = p.yellow},
     SpellLocal = {fg = p.none, fmt = "undercurl", sp = p.blue},
-    SpellRare = {fg = p.none, fmt = "undercurl", sp = p.purple},
+    SpellRare = {fg = p.none, fmt = "undercurl", sp = p.grape},
     StatusLine = {fg = p.fg, bg = p.bg2},
     StatusLineTerm = {fg = p.fg, bg = p.bg2},
     StatusLineNC = {fg = p.grey, bg = p.bg1},
@@ -109,12 +109,12 @@ hl.syntax = {
     PreProc = colors.Purple,
     PreCondit = colors.Purple,
     Include = colors.Purple,
-    Keyword = {fg = p.purple, fmt = cfg.code_style.keywords},
+    Keyword = {fg = p.grape, fmt = cfg.code_style.keywords},
     Define = colors.Purple,
     Typedef = colors.Yellow,
     Exception = colors.Purple,
-    Conditional = {fg = p.purple, fmt = cfg.code_style.keywords},
-    Repeat = {fg = p.purple, fmt = cfg.code_style.keywords},
+    Conditional = {fg = p.grape, fmt = cfg.code_style.keywords},
+    Repeat = {fg = p.grape, fmt = cfg.code_style.keywords},
     Statement = colors.Purple,
     Macro = colors.Red,
     Error = colors.Purple,
@@ -154,14 +154,14 @@ if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
         ["@function.builtin"] = {fg = p.cyan, fmt = cfg.code_style.functions},
         ["@function.macro"] = {fg = p.cyan, fmt = cfg.code_style.functions},
         ["@function.method"] = {fg = p.blue, fmt = cfg.code_style.functions},
-        ["@keyword"] = {fg = p.purple, fmt = cfg.code_style.keywords},
-        ["@keyword.conditional"] = {fg = p.purple, fmt = cfg.code_style.keywords},
+        ["@keyword"] = {fg = p.grape, fmt = cfg.code_style.keywords},
+        ["@keyword.conditional"] = {fg = p.grape, fmt = cfg.code_style.keywords},
         ["@keyword.directive"] = colors.Purple,
         ["@keyword.exception"] = colors.Purple,
-        ["@keyword.function"] = {fg = p.purple, fmt = cfg.code_style.functions},
+        ["@keyword.function"] = {fg = p.grape, fmt = cfg.code_style.functions},
         ["@keyword.import"] = colors.Purple,
-        ["@keyword.operator"] =  {fg = p.purple, fmt = cfg.code_style.keywords},
-        ["@keyword.repeat"] = {fg = p.purple, fmt = cfg.code_style.keywords},
+        ["@keyword.operator"] =  {fg = p.grape, fmt = cfg.code_style.keywords},
+        ["@keyword.repeat"] = {fg = p.grape, fmt = cfg.code_style.keywords},
         ["@label"] = colors.Red,
         ["@markup.emphasis"] = {fg = p.fg, fmt = 'italic'},
         ["@markup.environment"] = colors.Fg,
@@ -202,20 +202,20 @@ if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
         ["@variable.member"] = colors.Cyan,
         ["@variable.parameter"] = colors.Red,
         ["@markup.heading.1.markdown"] = {fg = p.red, fmt = "bold"},
-        ["@markup.heading.2.markdown"] = {fg = p.purple, fmt = "bold"},
+        ["@markup.heading.2.markdown"] = {fg = p.grape, fmt = "bold"},
         ["@markup.heading.3.markdown"] = {fg = p.orange, fmt = "bold"},
         ["@markup.heading.4.markdown"] = {fg = p.red, fmt = "bold"},
-        ["@markup.heading.5.markdown"] = {fg = p.purple, fmt = "bold"},
+        ["@markup.heading.5.markdown"] = {fg = p.grape, fmt = "bold"},
         ["@markup.heading.6.markdown"] = {fg = p.orange, fmt = "bold"},
         ["@markup.heading.1.marker.markdown"] = {fg = p.red, fmt = "bold"},
-        ["@markup.heading.2.marker.markdown"] = {fg = p.purple, fmt = "bold"},
+        ["@markup.heading.2.marker.markdown"] = {fg = p.grape, fmt = "bold"},
         ["@markup.heading.3.marker.markdown"] = {fg = p.orange, fmt = "bold"},
         ["@markup.heading.4.marker.markdown"] = {fg = p.red, fmt = "bold"},
-        ["@markup.heading.5.marker.markdown"] = {fg = p.purple, fmt = "bold"},
+        ["@markup.heading.5.marker.markdown"] = {fg = p.grape, fmt = "bold"},
         ["@markup.heading.6.marker.markdown"] = {fg = p.orange, fmt = "bold"},
 
         -- Old configuration for nvim-treesiter@0.9.1 and below
-        ["@conditional"] = {fg = p.purple, fmt = cfg.code_style.keywords},
+        ["@conditional"] = {fg = p.grape, fmt = cfg.code_style.keywords},
         ["@exception"] = colors.Purple,
         ["@field"] = colors.Cyan,
         ["@float"] = colors.Orange,
@@ -225,7 +225,7 @@ if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
         ["@parameter"] = colors.Red,
         ["@preproc"] = colors.Purple,
         ["@punctuation.special"] = colors.Red,
-        ["@repeat"] = {fg = p.purple, fmt = cfg.code_style.keywords},
+        ["@repeat"] = {fg = p.grape, fmt = cfg.code_style.keywords},
         ["@string.regex"] = {fg = p.orange, fmt = cfg.code_style.strings},
         ["@text.strong"] = {fg = p.fg, fmt = 'bold'},
         ["@text.emphasis"] = {fg = p.fg, fmt = 'italic'},
@@ -277,7 +277,7 @@ else
         TSBoolean = colors.Orange,
         TSCharacter = colors.Orange,
         TSComment = {fg = p.grey, fmt = cfg.code_style.comments},
-        TSConditional = {fg = p.purple, fmt = cfg.code_style.keywords},
+        TSConditional = {fg = p.grape, fmt = cfg.code_style.keywords},
         TSConstant = colors.Orange,
         TSConstBuiltin = colors.Orange,
         TSConstMacro = colors.Orange,
@@ -290,9 +290,9 @@ else
         TSFuncBuiltin = {fg = p.cyan, fmt = cfg.code_style.functions},
         TSFuncMacro = {fg = p.cyan, fmt = cfg.code_style.functions},
         TSInclude = colors.Purple,
-        TSKeyword = {fg = p.purple, fmt = cfg.code_style.keywords},
-        TSKeywordFunction = {fg = p.purple, fmt = cfg.code_style.functions},
-        TSKeywordOperator =  {fg = p.purple, fmt = cfg.code_style.keywords},
+        TSKeyword = {fg = p.grape, fmt = cfg.code_style.keywords},
+        TSKeywordFunction = {fg = p.grape, fmt = cfg.code_style.functions},
+        TSKeywordOperator =  {fg = p.grape, fmt = cfg.code_style.keywords},
         TSLabel = colors.Red,
         TSMethod = {fg = p.blue, fmt = cfg.code_style.functions},
         TSNamespace = colors.Yellow,
@@ -305,7 +305,7 @@ else
         TSPunctDelimiter = colors.LightGrey,
         TSPunctBracket = colors.LightGrey,
         TSPunctSpecial = colors.Red,
-        TSRepeat = {fg = p.purple, fmt = cfg.code_style.keywords},
+        TSRepeat = {fg = p.grape, fmt = cfg.code_style.keywords},
         TSString = {fg = p.green, fmt = cfg.code_style.strings},
         TSStringRegex = {fg = p.orange, fmt = cfg.code_style.strings},
         TSStringEscape = {fg = p.red, fmt = cfg.code_style.strings},
@@ -335,7 +335,7 @@ else
 end
 
 local diagnostics_error_color = cfg.diagnostics.darker and p.dark_red or p.red
-local diagnostics_hint_color = cfg.diagnostics.darker and p.dark_purple or p.purple
+local diagnostics_hint_color = cfg.diagnostics.darker and p.dark_purple or p.grape
 local diagnostics_warn_color = cfg.diagnostics.darker and p.dark_yellow or p.yellow
 local diagnostics_info_color = cfg.diagnostics.darker and p.dark_cyan or p.cyan
 hl.plugins.lsp = {
@@ -346,7 +346,7 @@ hl.plugins.lsp = {
     LspCxxHlSkippedRegionBeginEnd = colors.Red,
 
     DiagnosticError = {fg = p.red},
-    DiagnosticHint = {fg = p.purple},
+    DiagnosticHint = {fg = p.grape},
     DiagnosticInfo = {fg = p.cyan},
     DiagnosticWarn = {fg = p.yellow},
 
@@ -360,7 +360,7 @@ hl.plugins.lsp = {
                                   fg = diagnostics_hint_color },
 
     DiagnosticUnderlineError = {fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.red},
-    DiagnosticUnderlineHint = {fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.purple},
+    DiagnosticUnderlineHint = {fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.grape},
     DiagnosticUnderlineInfo = {fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.blue},
     DiagnosticUnderlineWarn = {fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.yellow},
 
@@ -394,7 +394,7 @@ hl.plugins.ale = {
 hl.plugins.barbar = {
     BufferCurrent = { fmt = "bold" },
     BufferCurrentMod = { fg = p.orange, fmt = "bold,italic" },
-    BufferCurrentSign = { fg = p.purple },
+    BufferCurrentSign = { fg = p.grape },
     BufferInactiveMod = { fg = p.light_grey, bg = p.bg1, fmt = "italic" },
     BufferVisible = { fg = p.light_grey, bg = p.bg0 },
     BufferVisibleMod = { fg = p.yellow, bg = p.bg0, fmt = "italic" },
@@ -409,7 +409,7 @@ hl.plugins.cmp = {
     CmpItemAbbrMatch = colors.Cyan,
     CmpItemAbbrMatchFuzzy = { fg = p.cyan, fmt = "underline" },
     CmpItemMenu = colors.LightGrey,
-    CmpItemKind = { fg = p.purple, fmt = cfg.cmp_itemkind_reverse and "reverse" },
+    CmpItemKind = { fg = p.grape, fmt = cfg.cmp_itemkind_reverse and "reverse" },
 }
 
 hl.plugins.coc = {
@@ -442,7 +442,7 @@ hl.plugins.hop = {
 -- comment
 hl.plugins.diffview = {
     DiffviewFilePanelTitle = {fg = p.blue, fmt = "bold"},
-    DiffviewFilePanelCounter = {fg = p.purple, fmt = "bold"},
+    DiffviewFilePanelCounter = {fg = p.grape, fmt = "bold"},
     DiffviewFilePanelFileName = colors.Fg,
     DiffviewNormal = hl.common.Normal,
     DiffviewCursorLine = hl.common.CursorLine,
@@ -496,7 +496,7 @@ hl.plugins.neo_tree = {
 }
 
 hl.plugins.neotest = {
-    NeotestAdapterName = { fg = p.purple, fmt = "bold" },
+    NeotestAdapterName = { fg = p.grape, fmt = "bold" },
     NeotestDir = colors.Cyan,
     NeotestExpandMarker = colors.Grey,
     NeotestFailed = colors.Red,
@@ -547,8 +547,8 @@ hl.plugins.dashboard = {
 }
 
 hl.plugins.outline = {
-    FocusedSymbol = { fg = p.purple, bg = p.bg2, fmt = "bold" },
-    AerialLine = { fg = p.purple, bg = p.bg2, fmt = "bold" },
+    FocusedSymbol = { fg = p.grape, bg = p.bg2, fmt = "bold" },
+    AerialLine = { fg = p.grape, bg = p.bg2, fmt = "bold" },
 }
 
 hl.plugins.navic = {
@@ -613,7 +613,7 @@ hl.plugins.mini = {
     MiniIndentscopeSymbol = { fg = p.grey },
     MiniIndentscopePrefix = { fmt = "nocombine" }, -- Make it invisible
 
-    MiniJump = { fg = p.purple, fmt = "underline", sp = p.purple },
+    MiniJump = { fg = p.grape, fmt = "underline", sp = p.grape },
 
     MiniJump2dSpot = { fg = p.red, fmt = "bold,nocombine" },
 
@@ -636,7 +636,7 @@ hl.plugins.mini = {
     MiniStatuslineModeNormal = { fg = p.bg0, bg = p.green, fmt = "bold" },
     MiniStatuslineModeOther = { fg = p.bg0, bg = p.cyan, fmt = "bold" },
     MiniStatuslineModeReplace = { fg = p.bg0, bg = p.red, fmt = "bold" },
-    MiniStatuslineModeVisual = { fg = p.bg0, bg = p.purple, fmt = "bold" },
+    MiniStatuslineModeVisual = { fg = p.bg0, bg = p.grape, fmt = "bold" },
 
     MiniSurround = { fg = p.bg0, bg = p.orange },
 
@@ -668,7 +668,7 @@ hl.langs.c = {
 }
 
 hl.langs.cpp = {
-    cppStatement = { fg = p.purple, fmt = "bold" },
+    cppStatement = { fg = p.grape, fmt = "bold" },
     cppTSInclude = colors.Blue,
     cppTSConstant = colors.Cyan,
     cppTSConstMacro = colors.Purple,
@@ -683,10 +683,10 @@ hl.langs.markdown = {
     markdownCodeBlock = colors.Green,
     markdownCodeDelimiter = colors.Yellow,
     markdownH1 = {fg = p.red, fmt = "bold"},
-    markdownH2 = {fg = p.purple, fmt = "bold"},
+    markdownH2 = {fg = p.grape, fmt = "bold"},
     markdownH3 = {fg = p.orange, fmt = "bold"},
     markdownH4 = {fg = p.red, fmt = "bold"},
-    markdownH5 = {fg = p.purple, fmt = "bold"},
+    markdownH5 = {fg = p.grape, fmt = "bold"},
     markdownH6 = {fg = p.orange, fmt = "bold"},
     markdownHeadingDelimiter = colors.Grey,
     markdownHeadingRule = colors.Grey,
@@ -717,8 +717,8 @@ hl.langs.php = {
     phpNumber = colors.Orange,
     phpHereDoc = colors.Green,
     phpNowDoc = colors.Green,
-    phpSCKeyword = {fg = p.purple, fmt = cfg.code_style.keywords},
-    phpFCKeyword = {fg = p.purple, fmt = cfg.code_style.keywords},
+    phpSCKeyword = {fg = p.grape, fmt = cfg.code_style.keywords},
+    phpFCKeyword = {fg = p.grape, fmt = cfg.code_style.keywords},
     phpRegion = colors.Blue
 }
 
@@ -765,17 +765,17 @@ hl.langs.vim = {
 }
 
 local lsp_kind_icons_color = {
-    Default = p.purple,
+    Default = p.grape,
     Array = p.yellow,
     Boolean = p.orange,
     Class = p.yellow,
     Color = p.green,
     Constant = p.orange,
     Constructor = p.blue,
-    Enum = p.purple,
+    Enum = p.grape,
     EnumMember = p.yellow,
     Event = p.yellow,
-    Field = p.purple,
+    Field = p.grape,
     File = p.blue,
     Folder = p.orange,
     Function = p.blue,
@@ -794,12 +794,12 @@ local lsp_kind_icons_color = {
     Reference = p.orange,
     Snippet = p.red,
     String = p.green,
-    Struct = p.purple,
+    Struct = p.grape,
     Text = p.light_grey,
     TypeParameter = p.red,
     Unit = p.green,
     Value = p.orange,
-    Variable = p.purple,
+    Variable = p.grape,
 }
 
 function M.setup()

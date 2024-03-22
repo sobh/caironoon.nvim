@@ -22,7 +22,7 @@ local dark = {
 	blue        = oc.blue[4],
 	indigo      = oc.indigo[4],
 	violet      = oc.violet[4],
-	purple      = oc.grape[4],
+	grape       = oc.grape[4],
 	pink        = oc.pink[4],
 
 	light_grey  = oc.gray[6],
@@ -58,7 +58,7 @@ local light = {
 	blue        = oc.blue[10],
 	indigo      = oc.indigo[10],
 	violet      = oc.violet[10],
-	purple      = oc.grape[10],
+	grape       = oc.grape[10],
 	pink        = oc.pink[10],
 
 	light_grey  = oc.gray[7],
