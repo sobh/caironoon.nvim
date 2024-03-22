@@ -11,7 +11,7 @@ local dark = {
 	bg_yellow = oc.yellow[2],
 	fg = oc.gray[5],
 
-	grey = oc.gray[7],
+	gray = oc.gray[7],
 	red = oc.red[4],
 	orange = oc.orange[4],
 	yellow = oc.yellow[4],
@@ -25,7 +25,7 @@ local dark = {
 	grape = oc.grape[4],
 	pink = oc.pink[4],
 
-	light_grey = oc.gray[6],
+	light_gray = oc.gray[6],
 	dark_cyan = oc.cyan[10],
 	dark_red = oc.red[10],
 	dark_yellow = oc.yellow[10],
