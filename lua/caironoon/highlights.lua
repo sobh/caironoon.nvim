@@ -3,7 +3,7 @@ local cfg = vim.g.caironoon_config
 local util = require("caironoon.util")
 
 local M = {}
-local hl = { langs = {}, plugins = {} }
+local groups = { langs = {}, plugins = {} }
 
 local function vim_highlights(highlights)
 	for group_name, group_settings in pairs(highlights) do
@@ -20,7 +20,7 @@ local function vim_highlights(highlights)
 	end
 end
 
-hl.common = {
+groups.common = {
 	Normal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
 	Terminal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
 	EndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg0, bg = cfg.transparent and p.none or p.bg0 },
@@ -88,7 +88,7 @@ hl.common = {
 	NormalFloat = { fg = p.fg, bg = p.bg1 },
 }
 
-hl.syntax = {
+groups.syntax = {
 	String = { fg = p.green, fmt = cfg.code_style.strings },
 	Character = { fg = p.orange },
 	Number = { fg = p.orange },
@@ -124,214 +124,118 @@ hl.syntax = {
 	Todo = { fg = p.orange, fmt = cfg.code_style.comments },
 }
 
-if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
-	hl.treesitter = {
-		-- nvim-treesitter@0.9.2 and after
-		["@annotation"] = { fg = p.fg },
-		["@attribute"] = { fg = p.cyan },
-		["@attribute.typescript"] = { fg = p.blue },
-		["@boolean"] = { fg = p.orange },
-		["@character"] = { fg = p.orange },
-		["@comment"] = hl.syntax.Comment,
-		["@comment.todo"] = hl.syntax.Comment,
-		["@comment.todo.unchecked"] = { fg = p.red, fmt = cfg.code_style.comments },
-		["@comment.todo.checked"] = { fg = p.green, fmt = cfg.code_style.comments },
-		["@constant"] = { fg = p.orange, fmt = cfg.code_style.constants },
-		["@constant.builtin"] = { fg = p.orange, fmt = cfg.code_style.constants },
-		["@constant.macro"] = { fg = p.orange, fmt = cfg.code_style.constants },
-		["@constructor"] = { fg = p.yellow, fmt = "bold" },
-		["@diff.add"] = { fg = p.green },
-		["@diff.delete"] = { fg = p.red },
-		["@error"] = { fg = p.fg },
-		["@function"] = { fg = p.blue, fmt = cfg.code_style.functions },
-		["@function.builtin"] = { fg = p.cyan, fmt = cfg.code_style.functions },
-		["@function.macro"] = { fg = p.cyan, fmt = cfg.code_style.functions },
-		["@function.method"] = { fg = p.blue, fmt = cfg.code_style.functions },
-		["@keyword"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-		["@keyword.conditional"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-		["@keyword.directive"] = { fg = p.purple },
-		["@keyword.exception"] = { fg = p.purple },
-		["@keyword.function"] = { fg = p.grape, fmt = cfg.code_style.functions },
-		["@keyword.import"] = { fg = p.purple },
-		["@keyword.operator"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-		["@keyword.repeat"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-		["@label"] = { fg = p.red },
-		["@markup.emphasis"] = { fg = p.fg, fmt = "italic" },
-		["@markup.environment"] = { fg = p.fg },
-		["@markup.environment.name"] = { fg = p.fg },
-		["@markup.heading"] = { fg = p.orange, fmt = "bold" },
-		["@markup.link"] = { fg = p.blue },
-		["@markup.link.url"] = { fg = p.cyan, fmt = "underline" },
-		["@markup.list"] = { fg = p.red },
-		["@markup.math"] = { fg = p.fg },
-		["@markup.raw"] = { fg = p.green },
-		["@markup.strike"] = { fg = p.fg, fmt = "strikethrough" },
-		["@markup.strong"] = { fg = p.fg, fmt = "bold" },
-		["@markup.underline"] = { fg = p.fg, fmt = "underline" },
-		["@module"] = { fg = p.yellow },
-		["@none"] = { fg = p.fg },
-		["@number"] = { fg = p.orange },
-		["@number.float"] = { fg = p.orange },
-		["@operator"] = { fg = p.fg },
-		["@parameter.reference"] = { fg = p.fg },
-		["@property"] = { fg = p.cyan },
-		["@punctuation.delimiter"] = { fg = p.light_gray },
-		["@punctuation.bracket"] = { fg = p.light_gray },
-		["@string"] = { fg = p.green, fmt = cfg.code_style.strings },
-		["@string.regexp"] = { fg = p.orange, fmt = cfg.code_style.strings },
-		["@string.escape"] = { fg = p.red, fmt = cfg.code_style.strings },
-		["@string.special.symbol"] = { fg = p.cyan },
-		["@tag"] = { fg = p.purple },
-		["@tag.attribute"] = { fg = p.yellow },
-		["@tag.delimiter"] = { fg = p.purple },
-		["@text"] = { fg = p.fg },
-		["@note"] = { fg = p.green },
-		["@warning"] = { fg = p.fg },
-		["@danger"] = { fg = p.fg },
-		["@type"] = { fg = p.yellow },
-		["@type.builtin"] = { fg = p.orange },
-		["@variable"] = { fg = p.fg, fmt = cfg.code_style.variables },
-		["@variable.builtin"] = { fg = p.red, fmt = cfg.code_style.variables },
-		["@variable.member"] = { fg = p.cyan },
-		["@variable.parameter"] = { fg = p.red },
-		["@markup.heading.1.markdown"] = { fg = p.red, fmt = "bold" },
-		["@markup.heading.2.markdown"] = { fg = p.grape, fmt = "bold" },
-		["@markup.heading.3.markdown"] = { fg = p.orange, fmt = "bold" },
-		["@markup.heading.4.markdown"] = { fg = p.red, fmt = "bold" },
-		["@markup.heading.5.markdown"] = { fg = p.grape, fmt = "bold" },
-		["@markup.heading.6.markdown"] = { fg = p.orange, fmt = "bold" },
-		["@markup.heading.1.marker.markdown"] = { fg = p.red, fmt = "bold" },
-		["@markup.heading.2.marker.markdown"] = { fg = p.grape, fmt = "bold" },
-		["@markup.heading.3.marker.markdown"] = { fg = p.orange, fmt = "bold" },
-		["@markup.heading.4.marker.markdown"] = { fg = p.red, fmt = "bold" },
-		["@markup.heading.5.marker.markdown"] = { fg = p.grape, fmt = "bold" },
-		["@markup.heading.6.marker.markdown"] = { fg = p.orange, fmt = "bold" },
+groups.treesitter = {
+	["@annotation"] = { fg = p.fg },
+	["@attribute"] = { fg = p.cyan },
+	["@attribute.typescript"] = { fg = p.blue },
+	["@boolean"] = { fg = p.orange },
+	["@character"] = { fg = p.orange },
+	["@comment"] = groups.syntax.Comment,
+	["@comment.todo"] = groups.syntax.Comment,
+	["@comment.todo.unchecked"] = { fg = p.red, fmt = cfg.code_style.comments },
+	["@comment.todo.checked"] = { fg = p.green, fmt = cfg.code_style.comments },
+	["@constant"] = { fg = p.orange, fmt = cfg.code_style.constants },
+	["@constant.builtin"] = { fg = p.orange, fmt = cfg.code_style.constants },
+	["@constant.macro"] = { fg = p.orange, fmt = cfg.code_style.constants },
+	["@constructor"] = { fg = p.yellow, fmt = "bold" },
+	["@diff.add"] = { fg = p.green },
+	["@diff.delete"] = { fg = p.red },
+	["@error"] = { fg = p.fg },
+	["@function"] = { fg = p.blue, fmt = cfg.code_style.functions },
+	["@function.builtin"] = { fg = p.cyan, fmt = cfg.code_style.functions },
+	["@function.macro"] = { fg = p.cyan, fmt = cfg.code_style.functions },
+	["@function.method"] = { fg = p.blue, fmt = cfg.code_style.functions },
+	["@keyword"] = { fg = p.grape, fmt = cfg.code_style.keywords },
+	["@keyword.conditional"] = { fg = p.grape, fmt = cfg.code_style.keywords },
+	["@keyword.directive"] = { fg = p.purple },
+	["@keyword.exception"] = { fg = p.purple },
+	["@keyword.function"] = { fg = p.grape, fmt = cfg.code_style.functions },
+	["@keyword.import"] = { fg = p.purple },
+	["@keyword.operator"] = { fg = p.grape, fmt = cfg.code_style.keywords },
+	["@keyword.repeat"] = { fg = p.grape, fmt = cfg.code_style.keywords },
+	["@label"] = { fg = p.red },
+	["@markup.emphasis"] = { fg = p.fg, fmt = "italic" },
+	["@markup.environment"] = { fg = p.fg },
+	["@markup.environment.name"] = { fg = p.fg },
+	["@markup.heading"] = { fg = p.orange, fmt = "bold" },
+	["@markup.link"] = { fg = p.blue },
+	["@markup.link.url"] = { fg = p.cyan, fmt = "underline" },
+	["@markup.list"] = { fg = p.red },
+	["@markup.math"] = { fg = p.fg },
+	["@markup.raw"] = { fg = p.green },
+	["@markup.strike"] = { fg = p.fg, fmt = "strikethrough" },
+	["@markup.strong"] = { fg = p.fg, fmt = "bold" },
+	["@markup.underline"] = { fg = p.fg, fmt = "underline" },
+	["@module"] = { fg = p.yellow },
+	["@none"] = { fg = p.fg },
+	["@number"] = { fg = p.orange },
+	["@number.float"] = { fg = p.orange },
+	["@operator"] = { fg = p.fg },
+	["@parameter.reference"] = { fg = p.fg },
+	["@property"] = { fg = p.cyan },
+	["@punctuation.delimiter"] = { fg = p.light_gray },
+	["@punctuation.bracket"] = { fg = p.light_gray },
+	["@string"] = { fg = p.green, fmt = cfg.code_style.strings },
+	["@string.regexp"] = { fg = p.orange, fmt = cfg.code_style.strings },
+	["@string.escape"] = { fg = p.red, fmt = cfg.code_style.strings },
+	["@string.special.symbol"] = { fg = p.cyan },
+	["@tag"] = { fg = p.purple },
+	["@tag.attribute"] = { fg = p.yellow },
+	["@tag.delimiter"] = { fg = p.purple },
+	["@text"] = { fg = p.fg },
+	["@note"] = { fg = p.green },
+	["@warning"] = { fg = p.fg },
+	["@danger"] = { fg = p.fg },
+	["@type"] = { fg = p.yellow },
+	["@type.builtin"] = { fg = p.orange },
+	["@variable"] = { fg = p.fg, fmt = cfg.code_style.variables },
+	["@variable.builtin"] = { fg = p.red, fmt = cfg.code_style.variables },
+	["@variable.member"] = { fg = p.cyan },
+	["@variable.parameter"] = { fg = p.red },
+	["@markup.heading.1.markdown"] = { fg = p.red, fmt = "bold" },
+	["@markup.heading.2.markdown"] = { fg = p.grape, fmt = "bold" },
+	["@markup.heading.3.markdown"] = { fg = p.orange, fmt = "bold" },
+	["@markup.heading.4.markdown"] = { fg = p.red, fmt = "bold" },
+	["@markup.heading.5.markdown"] = { fg = p.grape, fmt = "bold" },
+	["@markup.heading.6.markdown"] = { fg = p.orange, fmt = "bold" },
+	["@markup.heading.1.marker.markdown"] = { fg = p.red, fmt = "bold" },
+	["@markup.heading.2.marker.markdown"] = { fg = p.grape, fmt = "bold" },
+	["@markup.heading.3.marker.markdown"] = { fg = p.orange, fmt = "bold" },
+	["@markup.heading.4.marker.markdown"] = { fg = p.red, fmt = "bold" },
+	["@markup.heading.5.marker.markdown"] = { fg = p.grape, fmt = "bold" },
+	["@markup.heading.6.marker.markdown"] = { fg = p.orange, fmt = "bold" },
+}
 
-		-- Old configuration for nvim-treesiter@0.9.1 and below
-		["@conditional"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-		["@exception"] = { fg = p.purple },
-		["@field"] = { fg = p.cyan },
-		["@float"] = { fg = p.orange },
-		["@include"] = { fg = p.purple },
-		["@method"] = { fg = p.blue, fmt = cfg.code_style.functions },
-		["@namespace"] = { fg = p.yellow },
-		["@parameter"] = { fg = p.red },
-		["@preproc"] = { fg = p.purple },
-		["@punctuation.special"] = { fg = p.red },
-		["@repeat"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-		["@string.regex"] = { fg = p.orange, fmt = cfg.code_style.strings },
-		["@text.strong"] = { fg = p.fg, fmt = "bold" },
-		["@text.emphasis"] = { fg = p.fg, fmt = "italic" },
-		["@text.underline"] = { fg = p.fg, fmt = "underline" },
-		["@text.strike"] = { fg = p.fg, fmt = "strikethrough" },
-		["@text.title"] = { fg = p.orange, fmt = "bold" },
-		["@text.literal"] = { fg = p.green },
-		["@text.uri"] = { fg = p.cyan, fmt = "underline" },
-		["@text.todo"] = { fg = p.red, fmt = cfg.code_style.comments },
-		["@text.todo.unchecked"] = { fg = p.red, fmt = cfg.code_style.comments },
-		["@text.todo.checked"] = { fg = p.green, fmt = cfg.code_style.comments },
-		["@text.math"] = { fg = p.fg },
-		["@text.reference"] = { fg = p.blue },
-		["@text.environment"] = { fg = p.fg },
-		["@text.environment.name"] = { fg = p.fg },
-		["@text.diff.add"] = { fg = p.green },
-		["@text.diff.delete"] = { fg = p.red },
-	}
-	if vim.api.nvim_call_function("has", { "nvim-0.9" }) == 1 then
-		hl.lsp = {
-			["@lsp.type.comment"] = hl.treesitter["@comment"],
-			["@lsp.type.enum"] = hl.treesitter["@type"],
-			["@lsp.type.enumMember"] = hl.treesitter["@constant.builtin"],
-			["@lsp.type.interface"] = hl.treesitter["@type"],
-			["@lsp.type.typeParameter"] = hl.treesitter["@type"],
-			["@lsp.type.keyword"] = hl.treesitter["@keyword"],
-			["@lsp.type.namespace"] = hl.treesitter["@module"],
-			["@lsp.type.parameter"] = hl.treesitter["@variable.parameter"],
-			["@lsp.type.property"] = hl.treesitter["@property"],
-			["@lsp.type.variable"] = hl.treesitter["@variable"],
-			["@lsp.type.macro"] = hl.treesitter["@function.macro"],
-			["@lsp.type.method"] = hl.treesitter["@function.method"],
-			["@lsp.type.number"] = hl.treesitter["@number"],
-			["@lsp.type.generic"] = hl.treesitter["@text"],
-			["@lsp.type.builtinType"] = hl.treesitter["@type.builtin"],
-			["@lsp.typemod.method.defaultLibrary"] = hl.treesitter["@function"],
-			["@lsp.typemod.function.defaultLibrary"] = hl.treesitter["@function"],
-			["@lsp.typemod.operator.injected"] = hl.treesitter["@operator"],
-			["@lsp.typemod.string.injected"] = hl.treesitter["@string"],
-			["@lsp.typemod.variable.defaultLibrary"] = hl.treesitter["@variable.builtin"],
-			["@lsp.typemod.variable.injected"] = hl.treesitter["@variable"],
-			["@lsp.typemod.variable.static"] = hl.treesitter["@constant"],
-		}
-	end
-else
-	hl.treesitter = {
-		TSAnnotation = { fg = p.fg },
-		TSAttribute = { fg = p.cyan },
-		TSBoolean = { fg = p.orange },
-		TSCharacter = { fg = p.orange },
-		TSComment = { fg = p.gray, fmt = cfg.code_style.comments },
-		TSConditional = { fg = p.grape, fmt = cfg.code_style.keywords },
-		TSConstant = { fg = p.orange },
-		TSConstBuiltin = { fg = p.orange },
-		TSConstMacro = { fg = p.orange },
-		TSConstructor = { fg = p.yellow, fmt = "bold" },
-		TSError = { fg = p.fg },
-		TSException = { fg = p.purple },
-		TSField = { fg = p.cyan },
-		TSFloat = { fg = p.orange },
-		TSFunction = { fg = p.blue, fmt = cfg.code_style.functions },
-		TSFuncBuiltin = { fg = p.cyan, fmt = cfg.code_style.functions },
-		TSFuncMacro = { fg = p.cyan, fmt = cfg.code_style.functions },
-		TSInclude = { fg = p.purple },
-		TSKeyword = { fg = p.grape, fmt = cfg.code_style.keywords },
-		TSKeywordFunction = { fg = p.grape, fmt = cfg.code_style.functions },
-		TSKeywordOperator = { fg = p.grape, fmt = cfg.code_style.keywords },
-		TSLabel = { fg = p.red },
-		TSMethod = { fg = p.blue, fmt = cfg.code_style.functions },
-		TSNamespace = { fg = p.yellow },
-		TSNone = { fg = p.fg },
-		TSNumber = { fg = p.orange },
-		TSOperator = { fg = p.fg },
-		TSParameter = { fg = p.red },
-		TSParameterReference = { fg = p.fg },
-		TSProperty = { fg = p.cyan },
-		TSPunctDelimiter = { fg = p.light_gray },
-		TSPunctBracket = { fg = p.light_gray },
-		TSPunctSpecial = { fg = p.red },
-		TSRepeat = { fg = p.grape, fmt = cfg.code_style.keywords },
-		TSString = { fg = p.green, fmt = cfg.code_style.strings },
-		TSStringRegex = { fg = p.orange, fmt = cfg.code_style.strings },
-		TSStringEscape = { fg = p.red, fmt = cfg.code_style.strings },
-		TSSymbol = { fg = p.cyan },
-		TSTag = { fg = p.purple },
-		TSTagDelimiter = { fg = p.purple },
-		TSText = { fg = p.fg },
-		TSStrong = { fg = p.fg, fmt = "bold" },
-		TSEmphasis = { fg = p.fg, fmt = "italic" },
-		TSUnderline = { fg = p.fg, fmt = "underline" },
-		TSStrike = { fg = p.fg, fmt = "strikethrough" },
-		TSTitle = { fg = p.orange, fmt = "bold" },
-		TSLiteral = { fg = p.green },
-		TSURI = { fg = p.cyan, fmt = "underline" },
-		TSMath = { fg = p.fg },
-		TSTextReference = { fg = p.blue },
-		TSEnvironment = { fg = p.fg },
-		TSEnvironmentName = { fg = p.fg },
-		TSNote = { fg = p.fg },
-		TSWarning = { fg = p.fg },
-		TSDanger = { fg = p.fg },
-		TSType = { fg = p.yellow },
-		TSTypeBuiltin = { fg = p.orange },
-		TSVariable = { fg = p.fg, fmt = cfg.code_style.variables },
-		TSVariableBuiltin = { fg = p.red, fmt = cfg.code_style.variables },
-	}
-end
+groups.lsp = {
+	["@lsp.type.comment"] = groups.treesitter["@comment"],
+	["@lsp.type.enum"] = groups.treesitter["@type"],
+	["@lsp.type.enumMember"] = groups.treesitter["@constant.builtin"],
+	["@lsp.type.interface"] = groups.treesitter["@type"],
+	["@lsp.type.typeParameter"] = groups.treesitter["@type"],
+	["@lsp.type.keyword"] = groups.treesitter["@keyword"],
+	["@lsp.type.namespace"] = groups.treesitter["@module"],
+	["@lsp.type.parameter"] = groups.treesitter["@variable.parameter"],
+	["@lsp.type.property"] = groups.treesitter["@property"],
+	["@lsp.type.variable"] = groups.treesitter["@variable"],
+	["@lsp.type.macro"] = groups.treesitter["@function.macro"],
+	["@lsp.type.method"] = groups.treesitter["@function.method"],
+	["@lsp.type.number"] = groups.treesitter["@number"],
+	["@lsp.type.generic"] = groups.treesitter["@text"],
+	["@lsp.type.builtinType"] = groups.treesitter["@type.builtin"],
+	["@lsp.typemod.method.defaultLibrary"] = groups.treesitter["@function"],
+	["@lsp.typemod.function.defaultLibrary"] = groups.treesitter["@function"],
+	["@lsp.typemod.operator.injected"] = groups.treesitter["@operator"],
+	["@lsp.typemod.string.injected"] = groups.treesitter["@string"],
+	["@lsp.typemod.variable.defaultLibrary"] = groups.treesitter["@variable.builtin"],
+	["@lsp.typemod.variable.injected"] = groups.treesitter["@variable"],
+	["@lsp.typemod.variable.static"] = groups.treesitter["@constant"],
+}
 
 local diagnostics_error_color = cfg.diagnostics.darker and p.dark_red or p.red
 local diagnostics_hint_color = cfg.diagnostics.darker and p.dark_purple or p.grape
 local diagnostics_warn_color = cfg.diagnostics.darker and p.dark_yellow or p.yellow
 local diagnostics_info_color = cfg.diagnostics.darker and p.dark_cyan or p.cyan
-hl.plugins.lsp = {
+groups.plugins.lsp = {
 	LspCxxHlGroupEnumConstant = { fg = p.orange },
 	LspCxxHlGroupMemberVariable = { fg = p.orange },
 	LspCxxHlGroupNamespace = { fg = p.blue },
@@ -373,26 +277,26 @@ hl.plugins.lsp = {
 	LspCodeLensSeparator = { fg = p.gray },
 }
 
-hl.plugins.lsp.LspDiagnosticsDefaultError = hl.plugins.lsp.DiagnosticError
-hl.plugins.lsp.LspDiagnosticsDefaultHint = hl.plugins.lsp.DiagnosticHint
-hl.plugins.lsp.LspDiagnosticsDefaultInformation = hl.plugins.lsp.DiagnosticInfo
-hl.plugins.lsp.LspDiagnosticsDefaultWarning = hl.plugins.lsp.DiagnosticWarn
-hl.plugins.lsp.LspDiagnosticsUnderlineError = hl.plugins.lsp.DiagnosticUnderlineError
-hl.plugins.lsp.LspDiagnosticsUnderlineHint = hl.plugins.lsp.DiagnosticUnderlineHint
-hl.plugins.lsp.LspDiagnosticsUnderlineInformation = hl.plugins.lsp.DiagnosticUnderlineInfo
-hl.plugins.lsp.LspDiagnosticsUnderlineWarning = hl.plugins.lsp.DiagnosticUnderlineWarn
-hl.plugins.lsp.LspDiagnosticsVirtualTextError = hl.plugins.lsp.DiagnosticVirtualTextError
-hl.plugins.lsp.LspDiagnosticsVirtualTextWarning = hl.plugins.lsp.DiagnosticVirtualTextWarn
-hl.plugins.lsp.LspDiagnosticsVirtualTextInformation = hl.plugins.lsp.DiagnosticVirtualTextInfo
-hl.plugins.lsp.LspDiagnosticsVirtualTextHint = hl.plugins.lsp.DiagnosticVirtualTextHint
+groups.plugins.lsp.LspDiagnosticsDefaultError = groups.plugins.lsp.DiagnosticError
+groups.plugins.lsp.LspDiagnosticsDefaultHint = groups.plugins.lsp.DiagnosticHint
+groups.plugins.lsp.LspDiagnosticsDefaultInformation = groups.plugins.lsp.DiagnosticInfo
+groups.plugins.lsp.LspDiagnosticsDefaultWarning = groups.plugins.lsp.DiagnosticWarn
+groups.plugins.lsp.LspDiagnosticsUnderlineError = groups.plugins.lsp.DiagnosticUnderlineError
+groups.plugins.lsp.LspDiagnosticsUnderlineHint = groups.plugins.lsp.DiagnosticUnderlineHint
+groups.plugins.lsp.LspDiagnosticsUnderlineInformation = groups.plugins.lsp.DiagnosticUnderlineInfo
+groups.plugins.lsp.LspDiagnosticsUnderlineWarning = groups.plugins.lsp.DiagnosticUnderlineWarn
+groups.plugins.lsp.LspDiagnosticsVirtualTextError = groups.plugins.lsp.DiagnosticVirtualTextError
+groups.plugins.lsp.LspDiagnosticsVirtualTextWarning = groups.plugins.lsp.DiagnosticVirtualTextWarn
+groups.plugins.lsp.LspDiagnosticsVirtualTextInformation = groups.plugins.lsp.DiagnosticVirtualTextInfo
+groups.plugins.lsp.LspDiagnosticsVirtualTextHint = groups.plugins.lsp.DiagnosticVirtualTextHint
 
-hl.plugins.ale = {
-	ALEErrorSign = hl.plugins.lsp.DiagnosticError,
-	ALEInfoSign = hl.plugins.lsp.DiagnosticInfo,
-	ALEWarningSign = hl.plugins.lsp.DiagnosticWarn,
+groups.plugins.ale = {
+	ALEErrorSign = groups.plugins.lsp.DiagnosticError,
+	ALEInfoSign = groups.plugins.lsp.DiagnosticInfo,
+	ALEWarningSign = groups.plugins.lsp.DiagnosticWarn,
 }
 
-hl.plugins.barbar = {
+groups.plugins.barbar = {
 	BufferCurrent = { fmt = "bold" },
 	BufferCurrentMod = { fg = p.orange, fmt = "bold,italic" },
 	BufferCurrentSign = { fg = p.grape },
@@ -404,7 +308,7 @@ hl.plugins.barbar = {
 	BufferVisibleTarget = { fg = p.light_gray, bg = p.bg0 },
 }
 
-hl.plugins.cmp = {
+groups.plugins.cmp = {
 	CmpItemAbbr = { fg = p.fg },
 	CmpItemAbbrDeprecated = { fg = p.light_gray, fmt = "strikethrough" },
 	CmpItemAbbrMatch = { fg = p.cyan },
@@ -413,27 +317,27 @@ hl.plugins.cmp = {
 	CmpItemKind = { fg = p.grape, fmt = cfg.cmp_itemkind_reverse and "reverse" },
 }
 
-hl.plugins.coc = {
-	CocErrorSign = hl.plugins.lsp.DiagnosticError,
-	CocHintSign = hl.plugins.lsp.DiagnosticHint,
-	CocInfoSign = hl.plugins.lsp.DiagnosticInfo,
-	CocWarningSign = hl.plugins.lsp.DiagnosticWarn,
+groups.plugins.coc = {
+	CocErrorSign = groups.plugins.lsp.DiagnosticError,
+	CocHintSign = groups.plugins.lsp.DiagnosticHint,
+	CocInfoSign = groups.plugins.lsp.DiagnosticInfo,
+	CocWarningSign = groups.plugins.lsp.DiagnosticWarn,
 }
 
-hl.plugins.whichkey = {
+groups.plugins.whichkey = {
 	WhichKey = { fg = p.red },
 	WhichKeyDesc = { fg = p.blue },
 	WhichKeyGroup = { fg = p.orange },
 	WhichKeySeparator = { fg = p.green },
 }
 
-hl.plugins.gitgutter = {
+groups.plugins.gitgutter = {
 	GitGutterAdd = { fg = p.green },
 	GitGutterChange = { fg = p.blue },
 	GitGutterDelete = { fg = p.red },
 }
 
-hl.plugins.hop = {
+groups.plugins.hop = {
 	HopNextKey = { fg = p.red, fmt = "bold" },
 	HopNextKey1 = { fg = p.cyan, fmt = "bold" },
 	HopNextKey2 = { fg = util.darken(p.blue, 0.7) },
@@ -441,17 +345,17 @@ hl.plugins.hop = {
 }
 
 -- comment
-hl.plugins.diffview = {
+groups.plugins.diffview = {
 	DiffviewFilePanelTitle = { fg = p.blue, fmt = "bold" },
 	DiffviewFilePanelCounter = { fg = p.grape, fmt = "bold" },
 	DiffviewFilePanelFileName = { fg = p.fg },
-	DiffviewNormal = hl.common.Normal,
-	DiffviewCursorLine = hl.common.CursorLine,
-	DiffviewVertSplit = hl.common.VertSplit,
-	DiffviewSignColumn = hl.common.SignColumn,
-	DiffviewStatusLine = hl.common.StatusLine,
-	DiffviewStatusLineNC = hl.common.StatusLineNC,
-	DiffviewEndOfBuffer = hl.common.EndOfBuffer,
+	DiffviewNormal = groups.common.Normal,
+	DiffviewCursorLine = groups.common.CursorLine,
+	DiffviewVertSplit = groups.common.VertSplit,
+	DiffviewSignColumn = groups.common.SignColumn,
+	DiffviewStatusLine = groups.common.StatusLine,
+	DiffviewStatusLineNC = groups.common.StatusLineNC,
+	DiffviewEndOfBuffer = groups.common.EndOfBuffer,
 	DiffviewFilePanelRootPath = { fg = p.gray },
 	DiffviewFilePanelPath = { fg = p.gray },
 	DiffviewFilePanelInsertions = { fg = p.green },
@@ -468,7 +372,7 @@ hl.plugins.diffview = {
 	DiffviewStatusBroken = { fg = p.red },
 }
 
-hl.plugins.gitsigns = {
+groups.plugins.gitsigns = {
 	GitSignsAdd = { fg = p.green },
 	GitSignsAddLn = { fg = p.green },
 	GitSignsAddNr = { fg = p.green },
@@ -480,7 +384,7 @@ hl.plugins.gitsigns = {
 	GitSignsDeleteNr = { fg = p.red },
 }
 
-hl.plugins.neo_tree = {
+groups.plugins.neo_tree = {
 	NeoTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
 	NeoTreeNormalNC = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
 	NeoTreeVertSplit = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
@@ -496,7 +400,7 @@ hl.plugins.neo_tree = {
 	NeoTreeSymbolicLinkTarget = { fg = p.purple },
 }
 
-hl.plugins.neotest = {
+groups.plugins.neotest = {
 	NeotestAdapterName = { fg = p.grape, fmt = "bold" },
 	NeotestDir = { fg = p.cyan },
 	NeotestExpandMarker = { fg = p.gray },
@@ -515,7 +419,7 @@ hl.plugins.neotest = {
 	NeotestUnknown = { fg = p.light_gray },
 }
 
-hl.plugins.nvim_tree = {
+groups.plugins.nvim_tree = {
 	NvimTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
 	NvimTreeVertSplit = { fg = p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
 	NvimTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
@@ -529,7 +433,7 @@ hl.plugins.nvim_tree = {
 	NvimTreeSymlink = { fg = p.purple },
 	NvimTreeFolderName = { fg = p.blue },
 }
-hl.plugins.telescope = {
+groups.plugins.telescope = {
 	TelescopeBorder = { fg = p.red },
 	TelescopePromptBorder = { fg = p.cyan },
 	TelescopeResultsBorder = { fg = p.cyan },
@@ -540,24 +444,24 @@ hl.plugins.telescope = {
 	TelescopeSelectionCaret = { fg = p.yellow },
 }
 
-hl.plugins.dashboard = {
+groups.plugins.dashboard = {
 	DashboardShortCut = { fg = p.blue },
 	DashboardHeader = { fg = p.yellow },
 	DashboardCenter = { fg = p.cyan },
 	DashboardFooter = { fg = p.dark_red, fmt = "italic" },
 }
 
-hl.plugins.outline = {
+groups.plugins.outline = {
 	FocusedSymbol = { fg = p.grape, bg = p.bg2, fmt = "bold" },
 	AerialLine = { fg = p.grape, bg = p.bg2, fmt = "bold" },
 }
 
-hl.plugins.navic = {
+groups.plugins.navic = {
 	NavicText = { fg = p.fg },
 	NavicSeparator = { fg = p.light_gray },
 }
 
-hl.plugins.ts_rainbow = {
+groups.plugins.ts_rainbow = {
 	rainbowcol1 = { fg = p.light_gray },
 	rainbowcol2 = { fg = p.yellow },
 	rainbowcol3 = { fg = p.blue },
@@ -567,7 +471,7 @@ hl.plugins.ts_rainbow = {
 	rainbowcol7 = { fg = p.red },
 }
 
-hl.plugins.ts_rainbow2 = {
+groups.plugins.ts_rainbow2 = {
 	TSRainbowRed = { fg = p.red },
 	TSRainbowYellow = { fg = p.yellow },
 	TSRainbowBlue = { fg = p.blue },
@@ -577,7 +481,7 @@ hl.plugins.ts_rainbow2 = {
 	TSRainbowCyan = { fg = p.cyan },
 }
 
-hl.plugins.rainbow_delimiters = {
+groups.plugins.rainbow_delimiters = {
 	RainbowDelimiterRed = { fg = p.red },
 	RainbowDelimiterYellow = { fg = p.yellow },
 	RainbowDelimiterBlue = { fg = p.blue },
@@ -587,7 +491,7 @@ hl.plugins.rainbow_delimiters = {
 	RainbowDelimiterCyan = { fg = p.cyan },
 }
 
-hl.plugins.indent_blankline = {
+groups.plugins.indent_blankline = {
 	IndentBlanklineIndent1 = { fg = p.blue },
 	IndentBlanklineIndent2 = { fg = p.green },
 	IndentBlanklineIndent3 = { fg = p.cyan },
@@ -605,7 +509,7 @@ hl.plugins.indent_blankline = {
 	IblScope = { fg = p.gray, fmt = "nocombine" },
 }
 
-hl.plugins.mini = {
+groups.plugins.mini = {
 	MiniCompletionActiveParameter = { fmt = "underline" },
 
 	MiniCursorword = { fmt = "underline" },
@@ -657,7 +561,7 @@ hl.plugins.mini = {
 	MiniTrailspace = { bg = p.red },
 }
 
-hl.langs.c = {
+groups.langs.c = {
 	cInclude = { fg = p.blue },
 	cStorageClass = { fg = p.purple },
 	cTypedef = { fg = p.purple },
@@ -668,7 +572,7 @@ hl.langs.c = {
 	cTSOperator = { fg = p.purple },
 }
 
-hl.langs.cpp = {
+groups.langs.cpp = {
 	cppStatement = { fg = p.grape, fmt = "bold" },
 	cppTSInclude = { fg = p.blue },
 	cppTSConstant = { fg = p.cyan },
@@ -676,7 +580,7 @@ hl.langs.cpp = {
 	cppTSOperator = { fg = p.purple },
 }
 
-hl.langs.markdown = {
+groups.langs.markdown = {
 	markdownBlockquote = { fg = p.gray },
 	markdownBold = { fg = p.none, fmt = "bold" },
 	markdownBoldDelimiter = { fg = p.gray },
@@ -706,7 +610,7 @@ hl.langs.markdown = {
 	markdownUrlTitleDelimiter = { fg = p.green },
 }
 
-hl.langs.php = {
+groups.langs.php = {
 	phpFunctions = { fg = p.fg, fmt = cfg.code_style.functions },
 	phpMethods = { fg = p.cyan },
 	phpStructure = { fg = p.purple },
@@ -723,7 +627,7 @@ hl.langs.php = {
 	phpRegion = { fg = p.blue },
 }
 
-hl.langs.scala = {
+groups.langs.scala = {
 	scalaNameDefinition = { fg = p.fg },
 	scalaInterpolationBoundary = { fg = p.purple },
 	scalaInterpolation = { fg = p.purple },
@@ -732,7 +636,7 @@ hl.langs.scala = {
 	scalaKeywordModifier = { fg = p.red, fmt = cfg.code_style.keywords },
 }
 
-hl.langs.tex = {
+groups.langs.tex = {
 	latexTSInclude = { fg = p.blue },
 	latexTSFuncMacro = { fg = p.fg, fmt = cfg.code_style.functions },
 	latexTSEnvironment = { fg = p.cyan, fmt = "bold" },
@@ -753,7 +657,7 @@ hl.langs.tex = {
 	texPgfType = { fg = p.yellow },
 }
 
-hl.langs.vim = {
+groups.langs.vim = {
 	vimOption = { fg = p.red },
 	vimSetEqual = { fg = p.yellow },
 	vimMap = { fg = p.purple },
@@ -806,21 +710,21 @@ local lsp_kind_icons_color = {
 function M.setup()
 	-- define cmp and aerial kind highlights with lsp_kind_icons_color
 	for kind, color in pairs(lsp_kind_icons_color) do
-		hl.plugins.cmp["CmpItemKind" .. kind] = { fg = color, fmt = cfg.cmp_itemkind_reverse and "reverse" }
-		hl.plugins.outline["Aerial" .. kind .. "Icon"] = { fg = color }
-		hl.plugins.navic["NavicIcons" .. kind] = { fg = color }
+		groups.plugins.cmp["CmpItemKind" .. kind] = { fg = color, fmt = cfg.cmp_itemkind_reverse and "reverse" }
+		groups.plugins.outline["Aerial" .. kind .. "Icon"] = { fg = color }
+		groups.plugins.navic["NavicIcons" .. kind] = { fg = color }
 	end
 
-	vim_highlights(hl.common)
-	vim_highlights(hl.syntax)
-	vim_highlights(hl.treesitter)
-	if hl.lsp then
-		vim_highlights(hl.lsp)
+	vim_highlights(groups.common)
+	vim_highlights(groups.syntax)
+	vim_highlights(groups.treesitter)
+	if groups.lsp then
+		vim_highlights(groups.lsp)
 	end
-	for _, group in pairs(hl.langs) do
+	for _, group in pairs(groups.langs) do
 		vim_highlights(group)
 	end
-	for _, group in pairs(hl.plugins) do
+	for _, group in pairs(groups.plugins) do
 		vim_highlights(group)
 	end
 
