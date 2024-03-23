@@ -454,6 +454,21 @@ groups.plugins = {
 		NavicSeparator = { fg = p.light_gray },
 	},
 
+	rainbow = {
+		RainbowRed    = { fg = p.red },
+		RainbowOrange = { fg = p.orange },
+		RainbowYellow = { fg = p.yellow },
+		RainbowLime   = { fg = p.lime },
+		RainbowGreen  = { fg = p.green },
+		RainbowTeal   = { fg = p.teal },
+		RainbowCyan   = { fg = p.cyan },
+		RainbowBlue   = { fg = p.blue },
+		RainbowIndigo = { fg = p.indigo },
+		RainbowViolet = { fg = p.violet },
+		RainbowGrape  = { fg = p.Grape },
+		RainbowPink   = { fg = p.violet },
+	},
+
 	ts_rainbow = {
 		rainbowcol1 = { fg = p.light_gray },
 		rainbowcol2 = { fg = p.yellow },
