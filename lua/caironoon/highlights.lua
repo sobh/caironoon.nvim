@@ -5,52 +5,38 @@ local util = require("caironoon.util")
 local M = {}
 local groups = { langs = {}, plugins = {} }
 
-local function vim_highlights(highlights)
-	for group_name, group_settings in pairs(highlights) do
-		vim.api.nvim_command(
-			string.format(
-				"highlight %s guifg=%s guibg=%s guisp=%s gui=%s",
-				group_name,
-				group_settings.fg or "none",
-				group_settings.bg or "none",
-				group_settings.sp or "none",
-				group_settings.fmt or "none"
-			)
-		)
-	end
-end
-
+-- The builtin highlighting groups.
+-- :help highlight-groups
 groups.common = {
-	Normal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
-	Terminal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+	Normal      = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+	Terminal    = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
 	EndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg0, bg = cfg.transparent and p.none or p.bg0 },
-	FoldColumn = { fg = p.fg, bg = cfg.transparent and p.none or p.bg1 },
-	Folded = { fg = p.fg, bg = cfg.transparent and p.none or p.bg1 },
-	SignColumn = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+	FoldColumn  = { fg = p.fg, bg = cfg.transparent and p.none or p.bg1 },
+	Folded      = { fg = p.fg, bg = cfg.transparent and p.none or p.bg1 },
+	SignColumn  = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+
 	ToolbarLine = { fg = p.fg },
-	Cursor = { fmt = "reverse" },
-	vCursor = { fmt = "reverse" },
-	iCursor = { fmt = "reverse" },
-	lCursor = { fmt = "reverse" },
-	CursorIM = { fmt = "reverse" },
+	Cursor = { reverse = true },
+	vCursor = { link = "Cursor" },
+	iCursor = { link = "Cursor" },
+	lCursor = { link = "Cursor" },
+	CursorIM = { link = "Cursor" },
 	CursorColumn = { bg = p.bg1 },
 	CursorLine = { bg = p.bg1 },
 	ColorColumn = { bg = p.bg1 },
 	CursorLineNr = { fg = p.fg },
 	LineNr = { fg = p.gray },
 	Conceal = { fg = p.gray, bg = p.bg1 },
-	DiffAdd = { fg = p.none, bg = p.diff_add },
+
+	DiffAdd    = { fg = p.none, bg = p.diff_add },
 	DiffChange = { fg = p.none, bg = p.diff_change },
 	DiffDelete = { fg = p.none, bg = p.diff_delete },
-	DiffText = { fg = p.none, bg = p.diff_text },
-	DiffAdded = { fg = p.green },
-	DiffRemoved = { fg = p.red },
-	DiffFile = { fg = p.cyan },
-	DiffIndexLine = { fg = p.gray },
+	DiffText   = { fg = p.none, bg = p.diff_text },
+
 	Directory = { fg = p.blue },
-	ErrorMsg = { fg = p.red, fmt = "bold" },
-	WarningMsg = { fg = p.yellow, fmt = "bold" },
-	MoreMsg = { fg = p.blue, fmt = "bold" },
+	ErrorMsg = { fg = p.red, bold = true },
+	WarningMsg = { fg = p.yellow, bold = true },
+	MoreMsg = { fg = p.blue, bold = true },
 	CurSearch = { fg = p.bg0, bg = p.orange },
 	IncSearch = { fg = p.bg0, bg = p.orange },
 	Search = { fg = p.bg0, bg = p.bg_yellow },
@@ -65,10 +51,10 @@ groups.common = {
 	WildMenu = { fg = p.bg0, bg = p.blue },
 	PmenuThumb = { fg = p.none, bg = p.gray },
 	Question = { fg = p.yellow },
-	SpellBad = { fg = p.none, fmt = "undercurl", sp = p.red },
-	SpellCap = { fg = p.none, fmt = "undercurl", sp = p.yellow },
-	SpellLocal = { fg = p.none, fmt = "undercurl", sp = p.blue },
-	SpellRare = { fg = p.none, fmt = "undercurl", sp = p.grape },
+	SpellBad = { fg = p.none, undercurl = true, sp = p.red },
+	SpellCap = { fg = p.none, undercurl = true, sp = p.yellow },
+	SpellLocal = { fg = p.none, undercurl = true, sp = p.blue },
+	SpellRare = { fg = p.none, undercurl = true, sp = p.grape },
 	StatusLine = { fg = p.fg, bg = p.bg2 },
 	StatusLineTerm = { fg = p.fg, bg = p.bg2 },
 	StatusLineNC = { fg = p.gray, bg = p.bg1 },
@@ -78,50 +64,64 @@ groups.common = {
 	TabLineSel = { fg = p.bg0, bg = p.fg },
 	WinSeparator = { fg = p.bg3 },
 	Visual = { bg = p.bg3 },
-	VisualNOS = { fg = p.none, bg = p.bg2, fmt = "underline" },
-	QuickFixLine = { fg = p.blue, fmt = "underline" },
+	VisualNOS = { fg = p.none, bg = p.bg2, underline = true },
+	QuickFixLine = { fg = p.blue, underline = true },
 	Debug = { fg = p.yellow },
 	debugPC = { fg = p.bg0, bg = p.green },
 	debugBreakpoint = { fg = p.bg0, bg = p.red },
 	ToolbarButton = { fg = p.bg0, bg = p.bg_blue },
 	FloatBorder = { fg = p.gray, bg = p.bg1 },
 	NormalFloat = { fg = p.fg, bg = p.bg1 },
+	Title = { fg = p.cyan },
 }
 
 groups.syntax = {
-	String = { fg = p.green, fmt = cfg.code_style.strings },
-	Character = { fg = p.orange },
-	Number = { fg = p.orange },
-	Float = { fg = p.orange },
-	Boolean = { fg = p.orange },
-	Type = { fg = p.yellow },
-	Structure = { fg = p.yellow },
-	StorageClass = { fg = p.yellow },
-	Identifier = { fg = p.red, fmt = cfg.code_style.variables },
-	Constant = { fg = p.cyan },
-	PreProc = { fg = p.purple },
-	PreCondit = { fg = p.purple },
-	Include = { fg = p.purple },
-	Keyword = { fg = p.grape, fmt = cfg.code_style.keywords },
-	Define = { fg = p.purple },
-	Typedef = { fg = p.yellow },
-	Exception = { fg = p.purple },
-	Conditional = { fg = p.grape, fmt = cfg.code_style.keywords },
-	Repeat = { fg = p.grape, fmt = cfg.code_style.keywords },
-	Statement = { fg = p.purple },
-	Macro = { fg = p.red },
-	Error = { fg = p.purple },
-	Label = { fg = p.purple },
-	Special = { fg = p.red },
-	SpecialChar = { fg = p.red },
-	Function = { fg = p.blue, fmt = cfg.code_style.functions },
-	Operator = { fg = p.purple },
-	Title = { fg = p.cyan },
-	Tag = { fg = p.green },
-	Delimiter = { fg = p.light_gray },
-	Comment = { fg = p.comment, fmt = cfg.code_style.comments },
-	SpecialComment = { fg = p.comment, fmt = cfg.code_style.comments },
-	Todo = { fg = p.orange, fmt = cfg.code_style.comments },
+	-- :help group-name
+	Comment      = { fg = p.comment },              -- A Comment
+
+	Constant     = { fg = p.cyan },                 -- Any Constant
+	String       = { fg = p.green },                -- A string literal "like this"
+	Character    = { fg = p.orange },               -- A character constant: 'c', '\n'
+	Number       = { fg = p.orange },               -- A number constant: 234, 0xff
+	Boolean      = { fg = p.orange },               -- A boolean constant: TRUE, false
+	Float        = { fg = p.orange },               -- A floating point constant: 2.3e10
+
+	Identifier   = { fg = p.red },                  -- Any variable name
+	Function     = { fg = p.blue, bold = true },    -- Function name
+
+	Statement    = { fg = p.grape, italic = true }, -- Any statement
+	Conditional  = { link = "Statement" },          -- if, then, else, endif, switch, etc.
+	Repeat       = { link = "Statement" },          -- for, to, while, etc.
+	Label        = { link = "Statement" },          -- case, default, etc.
+	Operator     = { link = "Statement" },          -- "sizeof", "+", "*", etc.
+	Keyword      = { link = "Statement" },          -- Any other keyword
+	Exception    = { link = "Statement" },          -- try, catch, throw
+
+	PreProc      = { fg = p.grape },                -- Generic Preprocessor
+	Include      = { link = "PreProc" },            -- Preprocessor #include
+	Define       = { link = "PreProc" },            -- Preprocessor #define
+	Macro        = { fg = p.red },                  -- Same as Define
+	PreCondit    = { link = "PreProc" },            -- Preprocessor #if, #else, #endif, etc.
+
+	Type         = { fg = p.yellow },               -- int, long, char, etc.
+	StorageClass = { link = "Type" },               -- static, register, volatile, etc.
+	Structure    = { link = "Type" },               -- struct, union, enum, etc.
+	Typedef      = { link = "Type" },               -- A typedef
+
+	Special        = { fg = p.red },                   -- any special symbol
+	SpecialChar    = { link = "Special" },             -- special character in a constant
+	Tag            = { fg = p.green, underline=true }, -- you can use CTRL-] on this
+	Delimiter      = { fg = p.light_gray },            -- character that needs attention
+	SpecialComment = { fg = p.comment },               -- special things inside a comment
+	Debug          = { fg = p.orange },                -- debugging statements
+
+	Underlined = { fg = p.violet, underline = true }, -- text that stands out, HTML links
+
+	Ignore     = { fg = p.fg },     -- left blank, hidden  |hl-Ignore|
+
+	Error      = { fg = p.grape },  -- any erroneous construct
+
+	Todo       = { fg = p.orange }, -- TODO, FIXME, XXX etc
 }
 
 groups.treesitter = {
@@ -130,42 +130,45 @@ groups.treesitter = {
 	["@attribute.typescript"] = { fg = p.blue },
 	["@boolean"] = { fg = p.orange },
 	["@character"] = { fg = p.orange },
-	["@comment"] = groups.syntax.Comment,
-	["@comment.todo"] = groups.syntax.Comment,
-	["@comment.todo.unchecked"] = { fg = p.red, fmt = cfg.code_style.comments },
-	["@comment.todo.checked"] = { fg = p.green, fmt = cfg.code_style.comments },
-	["@constant"] = { fg = p.orange, fmt = cfg.code_style.constants },
-	["@constant.builtin"] = { fg = p.orange, fmt = cfg.code_style.constants },
-	["@constant.macro"] = { fg = p.orange, fmt = cfg.code_style.constants },
-	["@constructor"] = { fg = p.yellow, fmt = "bold" },
+	["@comment"] = { link = "Comment" },
+	["@comment.todo"] = { link = "Todo" },
+	["@comment.todo.unchecked"] = { fg = p.red },
+	["@comment.todo.checked"] = { fg = p.green },
+	["@constant"] = { link = "Constant" },
+	["@constant.builtin"] = { link = "Constant" },
+	["@constant.macro"] = { link = "Constant" },
+	["@constructor"] = { fg = p.yellow, bold = true },
 	["@diff.add"] = { fg = p.green },
 	["@diff.delete"] = { fg = p.red },
 	["@error"] = { fg = p.fg },
-	["@function"] = { fg = p.blue, fmt = cfg.code_style.functions },
-	["@function.builtin"] = { fg = p.cyan, fmt = cfg.code_style.functions },
-	["@function.macro"] = { fg = p.cyan, fmt = cfg.code_style.functions },
-	["@function.method"] = { fg = p.blue, fmt = cfg.code_style.functions },
-	["@keyword"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-	["@keyword.conditional"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-	["@keyword.directive"] = { fg = p.purple },
-	["@keyword.exception"] = { fg = p.purple },
-	["@keyword.function"] = { fg = p.grape, fmt = cfg.code_style.functions },
-	["@keyword.import"] = { fg = p.purple },
-	["@keyword.operator"] = { fg = p.grape, fmt = cfg.code_style.keywords },
-	["@keyword.repeat"] = { fg = p.grape, fmt = cfg.code_style.keywords },
+
+	["@function"] = { link = "Function" },
+	["@function.builtin"] = { fg = p.cyan, bold = true },
+	["@function.macro"] = { fg = p.teal },
+	["@function.method"] = { fg = p.indigo },
+
+	["@keyword"] = { link = "Keyword" },
+	["@keyword.conditional"] = { link = "Keyword" },
+	["@keyword.directive"] = { link = "Keyword" },
+	["@keyword.exception"] = { link = "Keyword" },
+	["@keyword.function"] = { link = "Keyword" },
+	["@keyword.import"] = { link = "Keyword" },
+	["@keyword.operator"] = { link = "Keyword" },
+	["@keyword.repeat"] = { link = "Keyword" },
+
 	["@label"] = { fg = p.red },
-	["@markup.emphasis"] = { fg = p.fg, fmt = "italic" },
+	["@markup.emphasis"] = { fg = p.fg, italic = true },
 	["@markup.environment"] = { fg = p.fg },
 	["@markup.environment.name"] = { fg = p.fg },
-	["@markup.heading"] = { fg = p.orange, fmt = "bold" },
+	["@markup.heading"] = { fg = p.orange, bold = true },
 	["@markup.link"] = { fg = p.blue },
-	["@markup.link.url"] = { fg = p.cyan, fmt = "underline" },
+	["@markup.link.url"] = { fg = p.cyan, underline = true },
 	["@markup.list"] = { fg = p.red },
 	["@markup.math"] = { fg = p.fg },
 	["@markup.raw"] = { fg = p.green },
-	["@markup.strike"] = { fg = p.fg, fmt = "strikethrough" },
-	["@markup.strong"] = { fg = p.fg, fmt = "bold" },
-	["@markup.underline"] = { fg = p.fg, fmt = "underline" },
+	["@markup.strike"] = { fg = p.fg, strikethrough = true },
+	["@markup.strong"] = { fg = p.fg, bold = true },
+	["@markup.underline"] = { fg = p.fg, underline = true },
 	["@module"] = { fg = p.yellow },
 	["@none"] = { fg = p.fg },
 	["@number"] = { fg = p.orange },
@@ -175,35 +178,35 @@ groups.treesitter = {
 	["@property"] = { fg = p.cyan },
 	["@punctuation.delimiter"] = { fg = p.light_gray },
 	["@punctuation.bracket"] = { fg = p.light_gray },
-	["@string"] = { fg = p.green, fmt = cfg.code_style.strings },
-	["@string.regexp"] = { fg = p.orange, fmt = cfg.code_style.strings },
-	["@string.escape"] = { fg = p.red, fmt = cfg.code_style.strings },
+	["@string"] = { fg = p.green },
+	["@string.regexp"] = { fg = p.orange },
+	["@string.escape"] = { fg = p.red },
 	["@string.special.symbol"] = { fg = p.cyan },
-	["@tag"] = { fg = p.purple },
+	["@tag"] = { fg = p.grape },
 	["@tag.attribute"] = { fg = p.yellow },
-	["@tag.delimiter"] = { fg = p.purple },
+	["@tag.delimiter"] = { fg = p.grape },
 	["@text"] = { fg = p.fg },
 	["@note"] = { fg = p.green },
 	["@warning"] = { fg = p.fg },
 	["@danger"] = { fg = p.fg },
 	["@type"] = { fg = p.yellow },
 	["@type.builtin"] = { fg = p.orange },
-	["@variable"] = { fg = p.fg, fmt = cfg.code_style.variables },
-	["@variable.builtin"] = { fg = p.red, fmt = cfg.code_style.variables },
+	["@variable"] = { fg = p.fg },
+	["@variable.builtin"] = { fg = p.red },
 	["@variable.member"] = { fg = p.cyan },
 	["@variable.parameter"] = { fg = p.red },
-	["@markup.heading.1.markdown"] = { fg = p.red, fmt = "bold" },
-	["@markup.heading.2.markdown"] = { fg = p.grape, fmt = "bold" },
-	["@markup.heading.3.markdown"] = { fg = p.orange, fmt = "bold" },
-	["@markup.heading.4.markdown"] = { fg = p.red, fmt = "bold" },
-	["@markup.heading.5.markdown"] = { fg = p.grape, fmt = "bold" },
-	["@markup.heading.6.markdown"] = { fg = p.orange, fmt = "bold" },
-	["@markup.heading.1.marker.markdown"] = { fg = p.red, fmt = "bold" },
-	["@markup.heading.2.marker.markdown"] = { fg = p.grape, fmt = "bold" },
-	["@markup.heading.3.marker.markdown"] = { fg = p.orange, fmt = "bold" },
-	["@markup.heading.4.marker.markdown"] = { fg = p.red, fmt = "bold" },
-	["@markup.heading.5.marker.markdown"] = { fg = p.grape, fmt = "bold" },
-	["@markup.heading.6.marker.markdown"] = { fg = p.orange, fmt = "bold" },
+	["@markup.heading.1.markdown"] = { fg = p.red, bold = true },
+	["@markup.heading.2.markdown"] = { fg = p.grape, bold = true },
+	["@markup.heading.3.markdown"] = { fg = p.orange, bold = true },
+	["@markup.heading.4.markdown"] = { fg = p.red, bold = true },
+	["@markup.heading.5.markdown"] = { fg = p.grape, bold = true },
+	["@markup.heading.6.markdown"] = { fg = p.orange, bold = true },
+	["@markup.heading.1.marker.markdown"] = { fg = p.red, bold = true },
+	["@markup.heading.2.marker.markdown"] = { fg = p.grape, bold = true },
+	["@markup.heading.3.marker.markdown"] = { fg = p.orange, bold = true },
+	["@markup.heading.4.marker.markdown"] = { fg = p.red, bold = true },
+	["@markup.heading.5.marker.markdown"] = { fg = p.grape, bold = true },
+	["@markup.heading.6.marker.markdown"] = { fg = p.orange, bold = true },
 }
 
 groups.lsp = {
@@ -231,442 +234,437 @@ groups.lsp = {
 	["@lsp.typemod.variable.static"] = groups.treesitter["@constant"],
 }
 
-local diagnostics_error_color = cfg.diagnostics.darker and p.dark_red or p.red
-local diagnostics_hint_color = cfg.diagnostics.darker and p.dark_purple or p.grape
-local diagnostics_warn_color = cfg.diagnostics.darker and p.dark_yellow or p.yellow
-local diagnostics_info_color = cfg.diagnostics.darker and p.dark_cyan or p.cyan
-groups.plugins.lsp = {
-	LspCxxHlGroupEnumConstant = { fg = p.orange },
-	LspCxxHlGroupMemberVariable = { fg = p.orange },
-	LspCxxHlGroupNamespace = { fg = p.blue },
-	LspCxxHlSkippedRegion = { fg = p.gray },
-	LspCxxHlSkippedRegionBeginEnd = { fg = p.red },
+groups.diagnostics = {
 
-	DiagnosticError = { fg = p.red },
-	DiagnosticHint = { fg = p.grape },
-	DiagnosticInfo = { fg = p.cyan },
-	DiagnosticWarn = { fg = p.yellow },
+	DiagnosticError = { fg=p.diag_error },
+	DiagnosticHint  = { fg=p.diag_hint },
+	DiagnosticInfo  = { fg=p.diag_info },
+	DiagnosticWarn  = { fg=p.diag_warning },
 
-	DiagnosticVirtualTextError = {
-		bg = cfg.diagnostics.background and util.darken(diagnostics_error_color, 0.1, p.bg0) or p.none,
-		fg = diagnostics_error_color,
+	DiagnosticVirtualTextError = { fg=p.diag_error, bg=util.darken(p.diag_error, 0.1, p.bg0) },
+	DiagnosticVirtualTextHint  = { fg=p.diag_hint, bg=util.darken(p.diag_hint, 0.1, p.bg0) },
+	DiagnosticVirtualTextInfo  = { fg=p.diag_info, bg=util.darken(p.diag_info, 0.1, p.bg0) },
+	DiagnosticVirtualTextWarn  = { fg=p.diag_warning, bg=util.darken(p.diag_warning, 0.1, p.bg0) },
+
+	DiagnosticUnderlineError = { undercurl=true, sp = p.diag_error },
+	DiagnosticUnderlineHint  = { undercurl=true, sp = p.diag_hint },
+	DiagnosticUnderlineInfo  = { undercurl=true, sp = p.diag_info },
+	DiagnosticUnderlineWarn  = { undercurl=true, sp = p.diag_warning },
+
+}
+
+groups.plugins = {
+	lsp = {
+		LspDiagnosticsDefaultError           = { link='DiagnosticError' },
+		LspDiagnosticsDefaultHint            = { link='DiagnosticHint' },
+		LspDiagnosticsDefaultInformation     = { link='DiagnosticInfo' },
+		LspDiagnosticsDefaultWarning         = { link='DiagnosticWarn' },
+
+		LspDiagnosticsUnderlineError         = { link='DiagnosticUnderlineError' },
+		LspDiagnosticsUnderlineHint          = { link='DiagnosticUnderlineHint' },
+		LspDiagnosticsUnderlineInformation   = { link='DiagnosticUnderlineInfo' },
+		LspDiagnosticsUnderlineWarning       = { link='DiagnosticUnderlineWarn' },
+
+		LspDiagnosticsVirtualTextError       = { link='DiagnosticVirtualTextError' },
+		LspDiagnosticsVirtualTextWarning     = { link='DiagnosticVirtualTextWarn' },
+		LspDiagnosticsVirtualTextInformation = { link='DiagnosticVirtualTextInfo' },
+		LspDiagnosticsVirtualTextHint        = { link='DiagnosticVirtualTextHint' },
+
+		LspReferenceText  = { bg = p.bg2 },
+		LspReferenceWrite = { bg = p.bg2 },
+		LspReferenceRead  = { bg = p.bg2 },
+
+		LspCodeLens = { fg = p.gray },
+		LspCodeLensSeparator = { fg = p.gray },
+
+		LspCxxHlGroupEnumConstant = { fg = p.orange },
+		LspCxxHlGroupMemberVariable = { fg = p.orange },
+		LspCxxHlGroupNamespace = { fg = p.blue },
+		LspCxxHlSkippedRegion = { fg = p.gray },
+		LspCxxHlSkippedRegionBeginEnd = { fg = p.red },
 	},
-	DiagnosticVirtualTextWarn = {
-		bg = cfg.diagnostics.background and util.darken(diagnostics_warn_color, 0.1, p.bg0) or p.none,
-		fg = diagnostics_warn_color,
-	},
-	DiagnosticVirtualTextInfo = {
-		bg = cfg.diagnostics.background and util.darken(diagnostics_info_color, 0.1, p.bg0) or p.none,
-		fg = diagnostics_info_color,
-	},
-	DiagnosticVirtualTextHint = {
-		bg = cfg.diagnostics.background and util.darken(diagnostics_hint_color, 0.1, p.bg0) or p.none,
-		fg = diagnostics_hint_color,
+
+	ale = {
+		ALEErrorSign   = { link='DiagnosticError' },
+		ALEInfoSign    = { link='DiagnosticInfo' },
+		ALEWarningSign = { link='DiagnosticWarn' },
 	},
 
-	DiagnosticUnderlineError = { fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.red },
-	DiagnosticUnderlineHint = { fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.grape },
-	DiagnosticUnderlineInfo = { fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.blue },
-	DiagnosticUnderlineWarn = { fmt = cfg.diagnostics.undercurl and "undercurl" or "underline", sp = p.yellow },
+	coc = {
+		CocErrorSign   = { link='DiagnosticError' },
+		CocHintSign    = { link='DiagnosticHint' },
+		CocInfoSign    = { link='DiagnosticInfo' },
+		CocWarningSign = { link='DiagnosticWarn' },
+	},
 
-	LspReferenceText = { bg = p.bg2 },
-	LspReferenceWrite = { bg = p.bg2 },
-	LspReferenceRead = { bg = p.bg2 },
+	barbar = {
+		BufferCurrent = { bold = true },
+		BufferCurrentMod = { fg = p.orange, bold = true, italic = true },
+		BufferCurrentSign = { fg = p.grape },
+		BufferInactiveMod = { fg = p.light_gray, bg = p.bg1, italic = true },
+		BufferVisible = { fg = p.light_gray, bg = p.bg0 },
+		BufferVisibleMod = { fg = p.yellow, bg = p.bg0, italic = true },
+		BufferVisibleIndex = { fg = p.light_gray, bg = p.bg0 },
+		BufferVisibleSign = { fg = p.light_gray, bg = p.bg0 },
+		BufferVisibleTarget = { fg = p.light_gray, bg = p.bg0 },
+	},
 
-	LspCodeLens = { fg = p.gray, fmt = cfg.code_style.comments },
-	LspCodeLensSeparator = { fg = p.gray },
+	cmp = {
+		CmpItemAbbr = { fg = p.fg },
+		CmpItemAbbrDeprecated = { fg = p.light_gray, strikethrough = true },
+		CmpItemAbbrMatch = { fg = p.cyan },
+		CmpItemAbbrMatchFuzzy = { fg = p.cyan, underline = true },
+		CmpItemMenu = { fg = p.light_gray },
+		CmpItemKind = { fg = p.grape, reverse = true },
+	},
+
+	whichkey = {
+		WhichKey = { fg = p.red },
+		WhichKeyDesc = { fg = p.blue },
+		WhichKeyGroup = { fg = p.orange },
+		WhichKeySeparator = { fg = p.green },
+	},
+
+	gitgutter = {
+		GitGutterAdd = { fg = p.green },
+		GitGutterChange = { fg = p.blue },
+		GitGutterDelete = { fg = p.red },
+	},
+
+	hop = {
+		HopNextKey = { fg = p.red, bold = true },
+		HopNextKey1 = { fg = p.cyan, bold = true },
+		HopNextKey2 = { fg = util.darken(p.blue, 0.7) },
+		HopUnmatched = { fg = p.gray },
+	},
+
+	diffview = {
+		DiffviewFilePanelTitle = { fg = p.blue, bold = true },
+		DiffviewFilePanelCounter = { fg = p.grape, bold = true },
+		DiffviewFilePanelFileName = { fg = p.fg },
+		DiffviewNormal = groups.common.Normal,
+		DiffviewCursorLine = groups.common.CursorLine,
+		DiffviewVertSplit = groups.common.VertSplit,
+		DiffviewSignColumn = groups.common.SignColumn,
+		DiffviewStatusLine = groups.common.StatusLine,
+		DiffviewStatusLineNC = groups.common.StatusLineNC,
+		DiffviewEndOfBuffer = groups.common.EndOfBuffer,
+		DiffviewFilePanelRootPath = { fg = p.gray },
+		DiffviewFilePanelPath = { fg = p.gray },
+		DiffviewFilePanelInsertions = { fg = p.green },
+		DiffviewFilePanelDeletions = { fg = p.red },
+		DiffviewStatusAdded = { fg = p.green },
+		DiffviewStatusUntracked = { fg = p.blue },
+		DiffviewStatusModified = { fg = p.blue },
+		DiffviewStatusRenamed = { fg = p.blue },
+		DiffviewStatusCopied = { fg = p.blue },
+		DiffviewStatusTypeChange = { fg = p.blue },
+		DiffviewStatusUnmerged = { fg = p.blue },
+		DiffviewStatusUnknown = { fg = p.red },
+		DiffviewStatusDeleted = { fg = p.red },
+		DiffviewStatusBroken = { fg = p.red },
+	},
+
+	gitsigns = {
+		GitSignsAdd = { fg = p.green },
+		GitSignsAddLn = { fg = p.green },
+		GitSignsAddNr = { fg = p.green },
+		GitSignsChange = { fg = p.blue },
+		GitSignsChangeLn = { fg = p.blue },
+		GitSignsChangeNr = { fg = p.blue },
+		GitSignsDelete = { fg = p.red },
+		GitSignsDeleteLn = { fg = p.red },
+		GitSignsDeleteNr = { fg = p.red },
+	},
+
+	neo_tree = {
+		NeoTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
+		NeoTreeNormalNC = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
+		NeoTreeVertSplit = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
+		NeoTreeWinSeparator = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
+		NeoTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
+		NeoTreeRootName = { fg = p.orange, bold = true },
+		NeoTreeGitAdded = { fg = p.green },
+		NeoTreeGitDeleted = { fg = p.red },
+		NeoTreeGitModified = { fg = p.yellow },
+		NeoTreeGitConflict = { fg = p.red, bold = true, italic = true },
+		NeoTreeGitUntracked = { fg = p.red, italic = true },
+		NeoTreeIndentMarker = { fg = p.gray },
+		NeoTreeSymbolicLinkTarget = { fg = p.grape },
+	},
+
+	neotest = {
+		NeotestAdapterName = { fg = p.grape, bold = true },
+		NeotestDir = { fg = p.cyan },
+		NeotestExpandMarker = { fg = p.gray },
+		NeotestFailed = { fg = p.red },
+		NeotestFile = { fg = p.cyan },
+		NeotestFocused = { bold = true, italic = true },
+		NeotestIndent = { fg = p.gray },
+		NeotestMarked = { fg = p.orange, bold = true },
+		NeotestNamespace = { fg = p.blue },
+		NeotestPassed = { fg = p.green },
+		NeotestRunning = { fg = p.yellow },
+		NeotestWinSelect = { fg = p.cyan, bold = true },
+		NeotestSkipped = { fg = p.light_gray },
+		NeotestTarget = { fg = p.grape },
+		NeotestTest = { fg = p.fg },
+		NeotestUnknown = { fg = p.light_gray },
+	},
+
+	nvim_tree = {
+		NvimTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
+		NvimTreeVertSplit = { fg = p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
+		NvimTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
+		NvimTreeRootFolder = { fg = p.orange, bold = true },
+		NvimTreeGitDirty = { fg = p.yellow },
+		NvimTreeGitNew = { fg = p.green },
+		NvimTreeGitDeleted = { fg = p.red },
+		NvimTreeSpecialFile = { fg = p.yellow, underline = true },
+		NvimTreeIndentMarker = { fg = p.fg },
+		NvimTreeImageFile = { fg = p.dark_purple },
+		NvimTreeSymlink = { fg = p.grape },
+		NvimTreeFolderName = { fg = p.blue },
+	},
+	telescope = {
+		TelescopeBorder = { fg = p.red },
+		TelescopePromptBorder = { fg = p.cyan },
+		TelescopeResultsBorder = { fg = p.cyan },
+		TelescopePreviewBorder = { fg = p.cyan },
+		TelescopeMatching = { fg = p.orange, bold = true },
+		TelescopePromptPrefix = { fg = p.green },
+		TelescopeSelection = { bg = p.bg2 },
+		TelescopeSelectionCaret = { fg = p.yellow },
+	},
+
+	dashboard = {
+		DashboardShortCut = { fg = p.blue },
+		DashboardHeader = { fg = p.yellow },
+		DashboardCenter = { fg = p.cyan },
+		DashboardFooter = { fg = p.dark_red, italic = true },
+	},
+
+	outline = {
+		FocusedSymbol = { fg = p.grape, bg = p.bg2, bold = true },
+		AerialLine = { fg = p.grape, bg = p.bg2, bold = true },
+	},
+
+	navic = {
+		NavicText = { fg = p.fg },
+		NavicSeparator = { fg = p.light_gray },
+	},
+
+	ts_rainbow = {
+		rainbowcol1 = { fg = p.light_gray },
+		rainbowcol2 = { fg = p.yellow },
+		rainbowcol3 = { fg = p.blue },
+		rainbowcol4 = { fg = p.orange },
+		rainbowcol5 = { fg = p.grape },
+		rainbowcol6 = { fg = p.green },
+		rainbowcol7 = { fg = p.red },
+	},
+
+	ts_rainbow2 = {
+		TSRainbowRed = { fg = p.red },
+		TSRainbowYellow = { fg = p.yellow },
+		TSRainbowBlue = { fg = p.blue },
+		TSRainbowOrange = { fg = p.orange },
+		TSRainbowGreen = { fg = p.green },
+		TSRainbowViolet = { fg = p.grape },
+		TSRainbowCyan = { fg = p.cyan },
+	},
+
+	rainbow_delimiters = {
+		RainbowDelimiterRed = { fg = p.red },
+		RainbowDelimiterYellow = { fg = p.yellow },
+		RainbowDelimiterBlue = { fg = p.blue },
+		RainbowDelimiterOrange = { fg = p.orange },
+		RainbowDelimiterGreen = { fg = p.green },
+		RainbowDelimiterViolet = { fg = p.grape },
+		RainbowDelimiterCyan = { fg = p.cyan },
+	},
+
+	indent_blankline = {
+		IndentBlanklineIndent1 = { fg = p.blue },
+		IndentBlanklineIndent2 = { fg = p.green },
+		IndentBlanklineIndent3 = { fg = p.cyan },
+		IndentBlanklineIndent4 = { fg = p.light_gray },
+		IndentBlanklineIndent5 = { fg = p.grape },
+		IndentBlanklineIndent6 = { fg = p.red },
+		IndentBlanklineChar = { fg = p.bg1, nocombine = true },
+		IndentBlanklineContextChar = { fg = p.gray, nocombine = true },
+		IndentBlanklineContextStart = { sp = p.gray, underline = true },
+		IndentBlanklineContextSpaceChar = { nocombine = true },
+
+		-- Ibl v3
+		IblIndent = { fg = p.bg1, nocombine = true },
+		IblWhitespace = { fg = p.gray, nocombine = true },
+		IblScope = { fg = p.gray, nocombine = true },
+	},
+
+	mini = {
+		MiniCompletionActiveParameter = { underline = true },
+
+		MiniCursorword = { underline = true },
+		MiniCursorwordCurrent = { underline = true },
+
+		MiniIndentscopeSymbol = { fg = p.gray },
+		MiniIndentscopePrefix = { nocombine = true }, -- Make it invisible
+
+		MiniJump = { fg = p.grape, underline = true, sp = p.grape },
+
+		MiniJump2dSpot = { fg = p.red, bold = true, nocombine = true },
+
+		MiniStarterCurrent = { nocombine = true },
+		MiniStarterFooter = { fg = p.dark_red, italic = true },
+		MiniStarterHeader = { fg = p.yellow },
+		MiniStarterInactive = { fg = p.gray },
+		MiniStarterItem = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+		MiniStarterItemBullet = { fg = p.gray },
+		MiniStarterItemPrefix = { fg = p.yellow },
+		MiniStarterSection = { fg = p.light_gray },
+		MiniStarterQuery = { fg = p.cyan },
+
+		MiniStatuslineDevinfo = { fg = p.fg, bg = p.bg2 },
+		MiniStatuslineFileinfo = { fg = p.fg, bg = p.bg2 },
+		MiniStatuslineFilename = { fg = p.gray, bg = p.bg1 },
+		MiniStatuslineInactive = { fg = p.gray, bg = p.bg0 },
+		MiniStatuslineModeCommand = { fg = p.bg0, bg = p.yellow, bold = true },
+		MiniStatuslineModeInsert = { fg = p.bg0, bg = p.blue, bold = true },
+		MiniStatuslineModeNormal = { fg = p.bg0, bg = p.green, bold = true },
+		MiniStatuslineModeOther = { fg = p.bg0, bg = p.cyan, bold = true },
+		MiniStatuslineModeReplace = { fg = p.bg0, bg = p.red, bold = true },
+		MiniStatuslineModeVisual = { fg = p.bg0, bg = p.grape, bold = true },
+
+		MiniSurround = { fg = p.bg0, bg = p.orange },
+
+		MiniTablineCurrent = { bold = true },
+		MiniTablineFill = { fg = p.gray, bg = p.bg1 },
+		MiniTablineHidden = { fg = p.fg, bg = p.bg1 },
+		MiniTablineModifiedCurrent = { fg = p.orange, bold = true, italic = true },
+		MiniTablineModifiedHidden = { fg = p.light_gray, bg = p.bg1, italic = true },
+		MiniTablineModifiedVisible = { fg = p.yellow, bg = p.bg0, italic = true },
+		MiniTablineTabpagesection = { fg = p.bg0, bg = p.bg_yellow },
+		MiniTablineVisible = { fg = p.light_gray, bg = p.bg0 },
+
+		MiniTestEmphasis = { bold = true },
+		MiniTestFail = { fg = p.red, bold = true },
+		MiniTestPass = { fg = p.green, bold = true },
+
+		MiniTrailspace = { bg = p.red },
+	},
+
 }
 
-groups.plugins.lsp.LspDiagnosticsDefaultError = groups.plugins.lsp.DiagnosticError
-groups.plugins.lsp.LspDiagnosticsDefaultHint = groups.plugins.lsp.DiagnosticHint
-groups.plugins.lsp.LspDiagnosticsDefaultInformation = groups.plugins.lsp.DiagnosticInfo
-groups.plugins.lsp.LspDiagnosticsDefaultWarning = groups.plugins.lsp.DiagnosticWarn
-groups.plugins.lsp.LspDiagnosticsUnderlineError = groups.plugins.lsp.DiagnosticUnderlineError
-groups.plugins.lsp.LspDiagnosticsUnderlineHint = groups.plugins.lsp.DiagnosticUnderlineHint
-groups.plugins.lsp.LspDiagnosticsUnderlineInformation = groups.plugins.lsp.DiagnosticUnderlineInfo
-groups.plugins.lsp.LspDiagnosticsUnderlineWarning = groups.plugins.lsp.DiagnosticUnderlineWarn
-groups.plugins.lsp.LspDiagnosticsVirtualTextError = groups.plugins.lsp.DiagnosticVirtualTextError
-groups.plugins.lsp.LspDiagnosticsVirtualTextWarning = groups.plugins.lsp.DiagnosticVirtualTextWarn
-groups.plugins.lsp.LspDiagnosticsVirtualTextInformation = groups.plugins.lsp.DiagnosticVirtualTextInfo
-groups.plugins.lsp.LspDiagnosticsVirtualTextHint = groups.plugins.lsp.DiagnosticVirtualTextHint
+groups.langs = {
 
-groups.plugins.ale = {
-	ALEErrorSign = groups.plugins.lsp.DiagnosticError,
-	ALEInfoSign = groups.plugins.lsp.DiagnosticInfo,
-	ALEWarningSign = groups.plugins.lsp.DiagnosticWarn,
-}
+	c = {
+		cInclude = { fg = p.blue },
+		cStorageClass = { fg = p.grape },
+		cTypedef = { fg = p.grape },
+		cDefine = { fg = p.cyan },
+		cTSInclude = { fg = p.blue },
+		cTSConstant = { fg = p.cyan },
+		cTSConstMacro = { fg = p.grape },
+		cTSOperator = { fg = p.grape },
+	},
 
-groups.plugins.barbar = {
-	BufferCurrent = { fmt = "bold" },
-	BufferCurrentMod = { fg = p.orange, fmt = "bold,italic" },
-	BufferCurrentSign = { fg = p.grape },
-	BufferInactiveMod = { fg = p.light_gray, bg = p.bg1, fmt = "italic" },
-	BufferVisible = { fg = p.light_gray, bg = p.bg0 },
-	BufferVisibleMod = { fg = p.yellow, bg = p.bg0, fmt = "italic" },
-	BufferVisibleIndex = { fg = p.light_gray, bg = p.bg0 },
-	BufferVisibleSign = { fg = p.light_gray, bg = p.bg0 },
-	BufferVisibleTarget = { fg = p.light_gray, bg = p.bg0 },
-}
+	cpp = {
+		cppStatement = { fg = p.grape, bold = true },
+		cppTSInclude = { fg = p.blue },
+		cppTSConstant = { fg = p.cyan },
+		cppTSConstMacro = { fg = p.grape },
+		cppTSOperator = { fg = p.grape },
+	},
 
-groups.plugins.cmp = {
-	CmpItemAbbr = { fg = p.fg },
-	CmpItemAbbrDeprecated = { fg = p.light_gray, fmt = "strikethrough" },
-	CmpItemAbbrMatch = { fg = p.cyan },
-	CmpItemAbbrMatchFuzzy = { fg = p.cyan, fmt = "underline" },
-	CmpItemMenu = { fg = p.light_gray },
-	CmpItemKind = { fg = p.grape, fmt = cfg.cmp_itemkind_reverse and "reverse" },
-}
+	markdown = {
+		markdownBlockquote = { fg = p.gray },
+		markdownBold = { fg = p.none, bold = true },
+		markdownBoldDelimiter = { fg = p.gray },
+		markdownCode = { fg = p.green },
+		markdownCodeBlock = { fg = p.green },
+		markdownCodeDelimiter = { fg = p.yellow },
+		markdownH1 = { fg = p.red, bold = true },
+		markdownH2 = { fg = p.grape, bold = true },
+		markdownH3 = { fg = p.orange, bold = true },
+		markdownH4 = { fg = p.red, bold = true },
+		markdownH5 = { fg = p.grape, bold = true },
+		markdownH6 = { fg = p.orange, bold = true },
+		markdownHeadingDelimiter = { fg = p.gray },
+		markdownHeadingRule = { fg = p.gray },
+		markdownId = { fg = p.yellow },
+		markdownIdDeclaration = { fg = p.red },
+		markdownItalic = { fg = p.none, italic = true },
+		markdownItalicDelimiter = { fg = p.gray, italic = true },
+		markdownLinkDelimiter = { fg = p.gray },
+		markdownLinkText = { fg = p.red },
+		markdownLinkTextDelimiter = { fg = p.gray },
+		markdownListMarker = { fg = p.red },
+		markdownOrderedListMarker = { fg = p.red },
+		markdownRule = { fg = p.grape },
+		markdownUrl = { fg = p.blue, underline = true },
+		markdownUrlDelimiter = { fg = p.gray },
+		markdownUrlTitleDelimiter = { fg = p.green },
+	},
 
-groups.plugins.coc = {
-	CocErrorSign = groups.plugins.lsp.DiagnosticError,
-	CocHintSign = groups.plugins.lsp.DiagnosticHint,
-	CocInfoSign = groups.plugins.lsp.DiagnosticInfo,
-	CocWarningSign = groups.plugins.lsp.DiagnosticWarn,
-}
+	php = {
+		phpFunctions = { fg = p.fg },
+		phpMethods = { fg = p.cyan },
+		phpStructure = { fg = p.grape },
+		phpOperator = { fg = p.grape },
+		phpMemberSelector = { fg = p.fg },
+		phpVarSelector = { fg = p.orange },
+		phpIdentifier = { fg = p.orange },
+		phpBoolean = { fg = p.cyan },
+		phpNumber = { fg = p.orange },
+		phpHereDoc = { fg = p.green },
+		phpNowDoc = { fg = p.green },
+		phpSCKeyword = { fg = p.grape },
+		phpFCKeyword = { fg = p.grape },
+		phpRegion = { fg = p.blue },
+	},
 
-groups.plugins.whichkey = {
-	WhichKey = { fg = p.red },
-	WhichKeyDesc = { fg = p.blue },
-	WhichKeyGroup = { fg = p.orange },
-	WhichKeySeparator = { fg = p.green },
-}
+	scala = {
+		scalaNameDefinition = { fg = p.fg },
+		scalaInterpolationBoundary = { fg = p.grape },
+		scalaInterpolation = { fg = p.grape },
+		scalaTypeOperator = { fg = p.red },
+		scalaOperator = { fg = p.red },
+		scalaKeywordModifier = { fg = p.red },
+	},
 
-groups.plugins.gitgutter = {
-	GitGutterAdd = { fg = p.green },
-	GitGutterChange = { fg = p.blue },
-	GitGutterDelete = { fg = p.red },
-}
+	tex = {
+		latexTSInclude = { fg = p.blue },
+		latexTSFuncMacro = { fg = p.fg },
+		latexTSEnvironment = { fg = p.cyan, bold = true },
+		latexTSEnvironmentName = { fg = p.yellow },
+		texCmdEnv = { fg = p.cyan },
+		texEnvArgName = { fg = p.yellow },
+		latexTSTitle = { fg = p.green },
+		latexTSType = { fg = p.blue },
+		latexTSMath = { fg = p.orange },
+		texMathZoneX = { fg = p.orange },
+		texMathZoneXX = { fg = p.orange },
+		texMathDelimZone = { fg = p.light_gray },
+		texMathDelim = { fg = p.grape },
+		texMathOper = { fg = p.red },
+		texCmd = { fg = p.grape },
+		texCmdPart = { fg = p.blue },
+		texCmdPackage = { fg = p.blue },
+		texPgfType = { fg = p.yellow },
+	},
 
-groups.plugins.hop = {
-	HopNextKey = { fg = p.red, fmt = "bold" },
-	HopNextKey1 = { fg = p.cyan, fmt = "bold" },
-	HopNextKey2 = { fg = util.darken(p.blue, 0.7) },
-	HopUnmatched = { fg = p.gray },
-}
-
--- comment
-groups.plugins.diffview = {
-	DiffviewFilePanelTitle = { fg = p.blue, fmt = "bold" },
-	DiffviewFilePanelCounter = { fg = p.grape, fmt = "bold" },
-	DiffviewFilePanelFileName = { fg = p.fg },
-	DiffviewNormal = groups.common.Normal,
-	DiffviewCursorLine = groups.common.CursorLine,
-	DiffviewVertSplit = groups.common.VertSplit,
-	DiffviewSignColumn = groups.common.SignColumn,
-	DiffviewStatusLine = groups.common.StatusLine,
-	DiffviewStatusLineNC = groups.common.StatusLineNC,
-	DiffviewEndOfBuffer = groups.common.EndOfBuffer,
-	DiffviewFilePanelRootPath = { fg = p.gray },
-	DiffviewFilePanelPath = { fg = p.gray },
-	DiffviewFilePanelInsertions = { fg = p.green },
-	DiffviewFilePanelDeletions = { fg = p.red },
-	DiffviewStatusAdded = { fg = p.green },
-	DiffviewStatusUntracked = { fg = p.blue },
-	DiffviewStatusModified = { fg = p.blue },
-	DiffviewStatusRenamed = { fg = p.blue },
-	DiffviewStatusCopied = { fg = p.blue },
-	DiffviewStatusTypeChange = { fg = p.blue },
-	DiffviewStatusUnmerged = { fg = p.blue },
-	DiffviewStatusUnknown = { fg = p.red },
-	DiffviewStatusDeleted = { fg = p.red },
-	DiffviewStatusBroken = { fg = p.red },
-}
-
-groups.plugins.gitsigns = {
-	GitSignsAdd = { fg = p.green },
-	GitSignsAddLn = { fg = p.green },
-	GitSignsAddNr = { fg = p.green },
-	GitSignsChange = { fg = p.blue },
-	GitSignsChangeLn = { fg = p.blue },
-	GitSignsChangeNr = { fg = p.blue },
-	GitSignsDelete = { fg = p.red },
-	GitSignsDeleteLn = { fg = p.red },
-	GitSignsDeleteNr = { fg = p.red },
-}
-
-groups.plugins.neo_tree = {
-	NeoTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
-	NeoTreeNormalNC = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
-	NeoTreeVertSplit = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
-	NeoTreeWinSeparator = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
-	NeoTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
-	NeoTreeRootName = { fg = p.orange, fmt = "bold" },
-	NeoTreeGitAdded = { fg = p.green },
-	NeoTreeGitDeleted = { fg = p.red },
-	NeoTreeGitModified = { fg = p.yellow },
-	NeoTreeGitConflict = { fg = p.red, fmt = "bold,italic" },
-	NeoTreeGitUntracked = { fg = p.red, fmt = "italic" },
-	NeoTreeIndentMarker = { fg = p.gray },
-	NeoTreeSymbolicLinkTarget = { fg = p.purple },
-}
-
-groups.plugins.neotest = {
-	NeotestAdapterName = { fg = p.grape, fmt = "bold" },
-	NeotestDir = { fg = p.cyan },
-	NeotestExpandMarker = { fg = p.gray },
-	NeotestFailed = { fg = p.red },
-	NeotestFile = { fg = p.cyan },
-	NeotestFocused = { fmt = "bold,italic" },
-	NeotestIndent = { fg = p.gray },
-	NeotestMarked = { fg = p.orange, fmt = "bold" },
-	NeotestNamespace = { fg = p.blue },
-	NeotestPassed = { fg = p.green },
-	NeotestRunning = { fg = p.yellow },
-	NeotestWinSelect = { fg = p.cyan, fmt = "bold" },
-	NeotestSkipped = { fg = p.light_gray },
-	NeotestTarget = { fg = p.purple },
-	NeotestTest = { fg = p.fg },
-	NeotestUnknown = { fg = p.light_gray },
-}
-
-groups.plugins.nvim_tree = {
-	NvimTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
-	NvimTreeVertSplit = { fg = p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
-	NvimTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
-	NvimTreeRootFolder = { fg = p.orange, fmt = "bold" },
-	NvimTreeGitDirty = { fg = p.yellow },
-	NvimTreeGitNew = { fg = p.green },
-	NvimTreeGitDeleted = { fg = p.red },
-	NvimTreeSpecialFile = { fg = p.yellow, fmt = "underline" },
-	NvimTreeIndentMarker = { fg = p.fg },
-	NvimTreeImageFile = { fg = p.dark_purple },
-	NvimTreeSymlink = { fg = p.purple },
-	NvimTreeFolderName = { fg = p.blue },
-}
-groups.plugins.telescope = {
-	TelescopeBorder = { fg = p.red },
-	TelescopePromptBorder = { fg = p.cyan },
-	TelescopeResultsBorder = { fg = p.cyan },
-	TelescopePreviewBorder = { fg = p.cyan },
-	TelescopeMatching = { fg = p.orange, fmt = "bold" },
-	TelescopePromptPrefix = { fg = p.green },
-	TelescopeSelection = { bg = p.bg2 },
-	TelescopeSelectionCaret = { fg = p.yellow },
-}
-
-groups.plugins.dashboard = {
-	DashboardShortCut = { fg = p.blue },
-	DashboardHeader = { fg = p.yellow },
-	DashboardCenter = { fg = p.cyan },
-	DashboardFooter = { fg = p.dark_red, fmt = "italic" },
-}
-
-groups.plugins.outline = {
-	FocusedSymbol = { fg = p.grape, bg = p.bg2, fmt = "bold" },
-	AerialLine = { fg = p.grape, bg = p.bg2, fmt = "bold" },
-}
-
-groups.plugins.navic = {
-	NavicText = { fg = p.fg },
-	NavicSeparator = { fg = p.light_gray },
-}
-
-groups.plugins.ts_rainbow = {
-	rainbowcol1 = { fg = p.light_gray },
-	rainbowcol2 = { fg = p.yellow },
-	rainbowcol3 = { fg = p.blue },
-	rainbowcol4 = { fg = p.orange },
-	rainbowcol5 = { fg = p.purple },
-	rainbowcol6 = { fg = p.green },
-	rainbowcol7 = { fg = p.red },
-}
-
-groups.plugins.ts_rainbow2 = {
-	TSRainbowRed = { fg = p.red },
-	TSRainbowYellow = { fg = p.yellow },
-	TSRainbowBlue = { fg = p.blue },
-	TSRainbowOrange = { fg = p.orange },
-	TSRainbowGreen = { fg = p.green },
-	TSRainbowViolet = { fg = p.purple },
-	TSRainbowCyan = { fg = p.cyan },
-}
-
-groups.plugins.rainbow_delimiters = {
-	RainbowDelimiterRed = { fg = p.red },
-	RainbowDelimiterYellow = { fg = p.yellow },
-	RainbowDelimiterBlue = { fg = p.blue },
-	RainbowDelimiterOrange = { fg = p.orange },
-	RainbowDelimiterGreen = { fg = p.green },
-	RainbowDelimiterViolet = { fg = p.purple },
-	RainbowDelimiterCyan = { fg = p.cyan },
-}
-
-groups.plugins.indent_blankline = {
-	IndentBlanklineIndent1 = { fg = p.blue },
-	IndentBlanklineIndent2 = { fg = p.green },
-	IndentBlanklineIndent3 = { fg = p.cyan },
-	IndentBlanklineIndent4 = { fg = p.light_gray },
-	IndentBlanklineIndent5 = { fg = p.purple },
-	IndentBlanklineIndent6 = { fg = p.red },
-	IndentBlanklineChar = { fg = p.bg1, fmt = "nocombine" },
-	IndentBlanklineContextChar = { fg = p.gray, fmt = "nocombine" },
-	IndentBlanklineContextStart = { sp = p.gray, fmt = "underline" },
-	IndentBlanklineContextSpaceChar = { fmt = "nocombine" },
-
-	-- Ibl v3
-	IblIndent = { fg = p.bg1, fmt = "nocombine" },
-	IblWhitespace = { fg = p.gray, fmt = "nocombine" },
-	IblScope = { fg = p.gray, fmt = "nocombine" },
-}
-
-groups.plugins.mini = {
-	MiniCompletionActiveParameter = { fmt = "underline" },
-
-	MiniCursorword = { fmt = "underline" },
-	MiniCursorwordCurrent = { fmt = "underline" },
-
-	MiniIndentscopeSymbol = { fg = p.gray },
-	MiniIndentscopePrefix = { fmt = "nocombine" }, -- Make it invisible
-
-	MiniJump = { fg = p.grape, fmt = "underline", sp = p.grape },
-
-	MiniJump2dSpot = { fg = p.red, fmt = "bold,nocombine" },
-
-	MiniStarterCurrent = { fmt = "nocombine" },
-	MiniStarterFooter = { fg = p.dark_red, fmt = "italic" },
-	MiniStarterHeader = { fg = p.yellow },
-	MiniStarterInactive = { fg = p.gray, fmt = cfg.code_style.comments },
-	MiniStarterItem = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
-	MiniStarterItemBullet = { fg = p.gray },
-	MiniStarterItemPrefix = { fg = p.yellow },
-	MiniStarterSection = { fg = p.light_gray },
-	MiniStarterQuery = { fg = p.cyan },
-
-	MiniStatuslineDevinfo = { fg = p.fg, bg = p.bg2 },
-	MiniStatuslineFileinfo = { fg = p.fg, bg = p.bg2 },
-	MiniStatuslineFilename = { fg = p.gray, bg = p.bg1 },
-	MiniStatuslineInactive = { fg = p.gray, bg = p.bg0 },
-	MiniStatuslineModeCommand = { fg = p.bg0, bg = p.yellow, fmt = "bold" },
-	MiniStatuslineModeInsert = { fg = p.bg0, bg = p.blue, fmt = "bold" },
-	MiniStatuslineModeNormal = { fg = p.bg0, bg = p.green, fmt = "bold" },
-	MiniStatuslineModeOther = { fg = p.bg0, bg = p.cyan, fmt = "bold" },
-	MiniStatuslineModeReplace = { fg = p.bg0, bg = p.red, fmt = "bold" },
-	MiniStatuslineModeVisual = { fg = p.bg0, bg = p.grape, fmt = "bold" },
-
-	MiniSurround = { fg = p.bg0, bg = p.orange },
-
-	MiniTablineCurrent = { fmt = "bold" },
-	MiniTablineFill = { fg = p.gray, bg = p.bg1 },
-	MiniTablineHidden = { fg = p.fg, bg = p.bg1 },
-	MiniTablineModifiedCurrent = { fg = p.orange, fmt = "bold,italic" },
-	MiniTablineModifiedHidden = { fg = p.light_gray, bg = p.bg1, fmt = "italic" },
-	MiniTablineModifiedVisible = { fg = p.yellow, bg = p.bg0, fmt = "italic" },
-	MiniTablineTabpagesection = { fg = p.bg0, bg = p.bg_yellow },
-	MiniTablineVisible = { fg = p.light_gray, bg = p.bg0 },
-
-	MiniTestEmphasis = { fmt = "bold" },
-	MiniTestFail = { fg = p.red, fmt = "bold" },
-	MiniTestPass = { fg = p.green, fmt = "bold" },
-
-	MiniTrailspace = { bg = p.red },
-}
-
-groups.langs.c = {
-	cInclude = { fg = p.blue },
-	cStorageClass = { fg = p.purple },
-	cTypedef = { fg = p.purple },
-	cDefine = { fg = p.cyan },
-	cTSInclude = { fg = p.blue },
-	cTSConstant = { fg = p.cyan },
-	cTSConstMacro = { fg = p.purple },
-	cTSOperator = { fg = p.purple },
-}
-
-groups.langs.cpp = {
-	cppStatement = { fg = p.grape, fmt = "bold" },
-	cppTSInclude = { fg = p.blue },
-	cppTSConstant = { fg = p.cyan },
-	cppTSConstMacro = { fg = p.purple },
-	cppTSOperator = { fg = p.purple },
-}
-
-groups.langs.markdown = {
-	markdownBlockquote = { fg = p.gray },
-	markdownBold = { fg = p.none, fmt = "bold" },
-	markdownBoldDelimiter = { fg = p.gray },
-	markdownCode = { fg = p.green },
-	markdownCodeBlock = { fg = p.green },
-	markdownCodeDelimiter = { fg = p.yellow },
-	markdownH1 = { fg = p.red, fmt = "bold" },
-	markdownH2 = { fg = p.grape, fmt = "bold" },
-	markdownH3 = { fg = p.orange, fmt = "bold" },
-	markdownH4 = { fg = p.red, fmt = "bold" },
-	markdownH5 = { fg = p.grape, fmt = "bold" },
-	markdownH6 = { fg = p.orange, fmt = "bold" },
-	markdownHeadingDelimiter = { fg = p.gray },
-	markdownHeadingRule = { fg = p.gray },
-	markdownId = { fg = p.yellow },
-	markdownIdDeclaration = { fg = p.red },
-	markdownItalic = { fg = p.none, fmt = "italic" },
-	markdownItalicDelimiter = { fg = p.gray, fmt = "italic" },
-	markdownLinkDelimiter = { fg = p.gray },
-	markdownLinkText = { fg = p.red },
-	markdownLinkTextDelimiter = { fg = p.gray },
-	markdownListMarker = { fg = p.red },
-	markdownOrderedListMarker = { fg = p.red },
-	markdownRule = { fg = p.purple },
-	markdownUrl = { fg = p.blue, fmt = "underline" },
-	markdownUrlDelimiter = { fg = p.gray },
-	markdownUrlTitleDelimiter = { fg = p.green },
-}
-
-groups.langs.php = {
-	phpFunctions = { fg = p.fg, fmt = cfg.code_style.functions },
-	phpMethods = { fg = p.cyan },
-	phpStructure = { fg = p.purple },
-	phpOperator = { fg = p.purple },
-	phpMemberSelector = { fg = p.fg },
-	phpVarSelector = { fg = p.orange, fmt = cfg.code_style.variables },
-	phpIdentifier = { fg = p.orange, fmt = cfg.code_style.variables },
-	phpBoolean = { fg = p.cyan },
-	phpNumber = { fg = p.orange },
-	phpHereDoc = { fg = p.green },
-	phpNowDoc = { fg = p.green },
-	phpSCKeyword = { fg = p.grape, fmt = cfg.code_style.keywords },
-	phpFCKeyword = { fg = p.grape, fmt = cfg.code_style.keywords },
-	phpRegion = { fg = p.blue },
-}
-
-groups.langs.scala = {
-	scalaNameDefinition = { fg = p.fg },
-	scalaInterpolationBoundary = { fg = p.purple },
-	scalaInterpolation = { fg = p.purple },
-	scalaTypeOperator = { fg = p.red },
-	scalaOperator = { fg = p.red },
-	scalaKeywordModifier = { fg = p.red, fmt = cfg.code_style.keywords },
-}
-
-groups.langs.tex = {
-	latexTSInclude = { fg = p.blue },
-	latexTSFuncMacro = { fg = p.fg, fmt = cfg.code_style.functions },
-	latexTSEnvironment = { fg = p.cyan, fmt = "bold" },
-	latexTSEnvironmentName = { fg = p.yellow },
-	texCmdEnv = { fg = p.cyan },
-	texEnvArgName = { fg = p.yellow },
-	latexTSTitle = { fg = p.green },
-	latexTSType = { fg = p.blue },
-	latexTSMath = { fg = p.orange },
-	texMathZoneX = { fg = p.orange },
-	texMathZoneXX = { fg = p.orange },
-	texMathDelimZone = { fg = p.light_gray },
-	texMathDelim = { fg = p.purple },
-	texMathOper = { fg = p.red },
-	texCmd = { fg = p.purple },
-	texCmdPart = { fg = p.blue },
-	texCmdPackage = { fg = p.blue },
-	texPgfType = { fg = p.yellow },
-}
-
-groups.langs.vim = {
-	vimOption = { fg = p.red },
-	vimSetEqual = { fg = p.yellow },
-	vimMap = { fg = p.purple },
-	vimMapModKey = { fg = p.orange },
-	vimNotation = { fg = p.red },
-	vimMapLhs = { fg = p.fg },
-	vimMapRhs = { fg = p.blue },
-	vimVar = { fg = p.fg, fmt = cfg.code_style.variables },
-	vimCommentTitle = { fg = p.light_gray, fmt = cfg.code_style.comments },
+	vim = {
+		vimOption = { fg = p.red },
+		vimSetEqual = { fg = p.yellow },
+		vimMap = { fg = p.grape },
+		vimMapModKey = { fg = p.orange },
+		vimNotation = { fg = p.red },
+		vimMapLhs = { fg = p.fg },
+		vimMapRhs = { fg = p.blue },
+		vimVar = { fg = p.fg },
+		vimCommentTitle = { fg = p.light_gray },
+	},
 }
 
 local lsp_kind_icons_color = {
@@ -707,25 +705,30 @@ local lsp_kind_icons_color = {
 	Variable = p.grape,
 }
 
+local function highlight_group(highlights)
+	for group_name, group_settings in pairs(highlights) do
+		vim.api.nvim_set_hl(0, group_name, group_settings)
+	end
+end
+
 function M.setup()
 	-- define cmp and aerial kind highlights with lsp_kind_icons_color
 	for kind, color in pairs(lsp_kind_icons_color) do
-		groups.plugins.cmp["CmpItemKind" .. kind] = { fg = color, fmt = cfg.cmp_itemkind_reverse and "reverse" }
+		groups.plugins.cmp["CmpItemKind" .. kind] = { fg = color, reverse=true}
 		groups.plugins.outline["Aerial" .. kind .. "Icon"] = { fg = color }
 		groups.plugins.navic["NavicIcons" .. kind] = { fg = color }
 	end
 
-	vim_highlights(groups.common)
-	vim_highlights(groups.syntax)
-	vim_highlights(groups.treesitter)
-	if groups.lsp then
-		vim_highlights(groups.lsp)
-	end
+	highlight_group(groups.common)
+	highlight_group(groups.syntax)
+	highlight_group(groups.treesitter)
+	highlight_group(groups.lsp)
+	highlight_group(groups.diagnostics)
 	for _, group in pairs(groups.langs) do
-		vim_highlights(group)
+		highlight_group(group)
 	end
 	for _, group in pairs(groups.plugins) do
-		vim_highlights(group)
+		highlight_group(group)
 	end
 end
 

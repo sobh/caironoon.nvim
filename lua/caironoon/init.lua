@@ -24,6 +24,7 @@ end
 
 local default_config = {
     -- Main options --
+    style = 'light',    -- choose between 'dark', 'light'
     transparent = false,     -- don't set background
     term_colors = true,      -- if true enable the terminal
     ending_tildes = false,    -- show the end-of-buffer tildes

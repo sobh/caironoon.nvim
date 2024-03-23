@@ -37,6 +37,11 @@ local dark = {
 	diff_delete = oc.red[10],
 	diff_change = oc.blue[10],
 	diff_text = oc.gray[9],
+
+	diag_error   = oc.red[10],
+	diag_warning = oc.yellow[10],
+	diag_info    = oc.cyan[10],
+	diag_hint    = oc.violet[10],
 }
 local light = {
 	black = oc.black,
@@ -75,6 +80,11 @@ local light = {
 	diff_delete = oc.red[2],
 	diff_change = oc.blue[2],
 	diff_text = oc.gray[5],
+
+	diag_error   = oc.red[10],
+	diag_warning = oc.yellow[10],
+	diag_info    = oc.cyan[10],
+	diag_hint    = oc.violet[10],
 }
 
 if vim.opt.background:get() == "dark" then
