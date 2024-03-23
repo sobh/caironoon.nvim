@@ -31,6 +31,8 @@ local dark = {
 	dark_yellow = oc.yellow[10],
 	dark_purple = oc.grape[10],
 
+	comment = oc.gray[7],
+
 	diff_add = oc.green[10],
 	diff_delete = oc.red[10],
 	diff_change = oc.blue[10],
@@ -66,6 +68,8 @@ local light = {
 	dark_red = oc.red[10],
 	dark_yellow = oc.yellow[10],
 	dark_purple = oc.grape[10],
+
+	comment = oc.gray[8],
 
 	diff_add = oc.green[2],
 	diff_delete = oc.red[2],

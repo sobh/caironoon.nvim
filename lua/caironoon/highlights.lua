@@ -119,9 +119,9 @@ hl.syntax = {
 	Title = { fg = p.cyan },
 	Tag = { fg = p.green },
 	Delimiter = { fg = p.light_gray },
-	Comment = { fg = p.gray, fmt = cfg.code_style.comments },
-	SpecialComment = { fg = p.gray, fmt = cfg.code_style.comments },
-	Todo = { fg = p.red, fmt = cfg.code_style.comments },
+	Comment = { fg = p.comment, fmt = cfg.code_style.comments },
+	SpecialComment = { fg = p.comment, fmt = cfg.code_style.comments },
+	Todo = { fg = p.orange, fmt = cfg.code_style.comments },
 }
 
 if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
@@ -132,8 +132,8 @@ if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
 		["@attribute.typescript"] = { fg = p.blue },
 		["@boolean"] = { fg = p.orange },
 		["@character"] = { fg = p.orange },
-		["@comment"] = { fg = p.gray, fmt = cfg.code_style.comments },
-		["@comment.todo"] = { fg = p.red, fmt = cfg.code_style.comments },
+		["@comment"] = hl.syntax.Comment,
+		["@comment.todo"] = hl.syntax.Comment,
 		["@comment.todo.unchecked"] = { fg = p.red, fmt = cfg.code_style.comments },
 		["@comment.todo.checked"] = { fg = p.green, fmt = cfg.code_style.comments },
 		["@constant"] = { fg = p.orange, fmt = cfg.code_style.constants },
@@ -185,7 +185,7 @@ if vim.api.nvim_call_function("has", { "nvim-0.8" }) == 1 then
 		["@tag.attribute"] = { fg = p.yellow },
 		["@tag.delimiter"] = { fg = p.purple },
 		["@text"] = { fg = p.fg },
-		["@note"] = { fg = p.fg },
+		["@note"] = { fg = p.green },
 		["@warning"] = { fg = p.fg },
 		["@danger"] = { fg = p.fg },
 		["@type"] = { fg = p.yellow },
