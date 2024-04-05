@@ -597,6 +597,15 @@ groups.langs = {
 		cppTSOperator = { fg = p.grape },
 	},
 
+	diff = {
+		diffFile    = { fg = p.pink },
+		diffLine    = { fg = p.grape, bold = true },
+		diffOldFile = { fg = p.yellow },
+		diffNewFile = { fg = p.cyan },
+		diffAdded   = { fg = p.syntax.diff.add.fg, bg = p.syntax.diff.add.bg },
+		diffRemoved = { fg = p.syntax.diff.delete.fg, bg = p.syntax.diff.delete.bg },
+	},
+
 	markdown = {
 		markdownBlockquote = { fg = p.gray },
 		markdownBold = { fg = p.none, bold = true },
