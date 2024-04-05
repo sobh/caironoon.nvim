@@ -329,9 +329,9 @@ groups.plugins = {
 	},
 
 	gitgutter = {
-		GitGutterAdd = { fg = p.green },
-		GitGutterChange = { fg = p.blue },
-		GitGutterDelete = { fg = p.red },
+		-- GitGutterAdd = { fg = p.green },
+		-- GitGutterChange = { fg = p.blue },
+		-- GitGutterDelete = { fg = p.red },
 	},
 
 	hop = {
@@ -369,15 +369,16 @@ groups.plugins = {
 	},
 
 	gitsigns = {
-		GitSignsAdd = { fg = p.green },
-		GitSignsAddLn = { fg = p.green },
-		GitSignsAddNr = { fg = p.green },
-		GitSignsChange = { fg = p.blue },
-		GitSignsChangeLn = { fg = p.blue },
-		GitSignsChangeNr = { fg = p.blue },
-		GitSignsDelete = { fg = p.red },
-		GitSignsDeleteLn = { fg = p.red },
-		GitSignsDeleteNr = { fg = p.red },
+		GitSignsAdd      = { link='DiffAdd' },
+		GitSignsAddLn    = { link='DiffAdd' },
+		GitSignsAddNr    = { link='DiffAdd' },
+		GitSignsChange   = { link='DiffChange' },
+		GitSignsChangeLn = { link='DiffChange' },
+		GitSignsChangeLnInline = { link='DiffText' },
+		GitSignsChangeNr = { link='DiffChange' },
+		GitSignsDelete   = { link='DiffDelete' },
+		GitSignsDeleteLn = { link='DiffDelete' },
+		GitSignsDeleteNr = { link='DiffDelete' },
 	},
 
 	neo_tree = {
