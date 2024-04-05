@@ -2,12 +2,15 @@ local config = require("caironoon.config")
 local M = {}
 
 ---Apply the colorscheme (same as ':colorscheme caironoon')
-function M.colorscheme()
+function M.colorscheme(variant)
+
+	config.extend({ variant = variant })
+
 	vim.cmd("hi clear")
-	if vim.fn.exists("syntax_on") then
-		vim.cmd("syntax reset")
-	end
+	vim.cmd("syntax reset")
+
 	vim.o.termguicolors = true
+
 	vim.g.colors_name = "caironoon"
 	require("caironoon.highlights").setup()
 	require("caironoon.terminal").setup()
