@@ -1,4 +1,4 @@
-local oc = require("caironoon.open-color")
+local oc = require("caironoon.colors.open-color")
 
 local dark = {
 	black = oc.black,
