@@ -52,7 +52,7 @@ local dark = {
 }
 local light = {
 	black = oc.black,
-	bg0 = oc.gray[1],
+	bg0 = oc.white,
 	bg1 = oc.gray[3],
 	bg2 = oc.gray[4],
 	bg3 = oc.gray[5],
