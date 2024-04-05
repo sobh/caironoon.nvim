@@ -43,7 +43,7 @@ groups.common = {
 	Substitute = { fg = p.bg0, bg = p.green },
 	MatchParen = { fg = p.none, bg = p.gray },
 	NonText = { fg = p.gray },
-	Whitespace = { fg = p.gray },
+	Whitespace = { fg = p.bg1 },
 	SpecialKey = { fg = p.gray },
 	Pmenu = { fg = p.fg, bg = p.bg1 },
 	PmenuSbar = { fg = p.none, bg = p.bg1 },
