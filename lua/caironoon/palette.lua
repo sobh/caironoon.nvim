@@ -31,17 +31,24 @@ local dark = {
 	dark_yellow = oc.yellow[10],
 	dark_purple = oc.grape[10],
 
-	comment = oc.gray[7],
+	syntax = {
+		comment = oc.gray[7],
 
-	diff_add = oc.green[10],
-	diff_delete = oc.red[10],
-	diff_change = oc.blue[10],
-	diff_text = oc.gray[9],
+		diff = {
+			add = { bg = oc.green[10] },
+			delete = { bg = oc.red[10] },
+			change = { bg = oc.blue[10] },
+			text = { bg = oc.gray[9] },
+		},
 
-	diag_error   = oc.red[10],
-	diag_warning = oc.yellow[10],
-	diag_info    = oc.cyan[10],
-	diag_hint    = oc.violet[10],
+		diag = {
+			error = { fg = oc.red[10] },
+			warning = { fg = oc.yellow[10] },
+			info = { fg = oc.cyan[10] },
+			hint = { fg = oc.violet[10] },
+		},
+	},
+
 }
 local light = {
 	black = oc.black,
@@ -74,17 +81,23 @@ local light = {
 	dark_yellow = oc.yellow[10],
 	dark_purple = oc.grape[10],
 
-	comment = oc.gray[8],
+	syntax = {
+		comment = oc.gray[8],
 
-	diff_add = oc.green[2],
-	diff_delete = oc.red[2],
-	diff_change = oc.blue[2],
-	diff_text = oc.gray[5],
+		diff = {
+			add = { bg = oc.green[2] },
+			delete = { bg = oc.red[2] },
+			change = { bg = oc.blue[2] },
+			text = { bg = oc.gray[5] },
+		},
 
-	diag_error   = oc.red[10],
-	diag_warning = oc.yellow[10],
-	diag_info    = oc.cyan[10],
-	diag_hint    = oc.violet[10],
+		diag = {
+			error = { fg = oc.red[10] },
+			warning = { fg = oc.yellow[10] },
+			info = { fg = oc.cyan[10] },
+			hint = { fg = oc.violet[10] },
+		},
+	},
 }
 
 if vim.opt.background:get() == "dark" then

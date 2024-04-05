@@ -20,7 +20,7 @@ groups.common = {
 	vCursor = { link = "Cursor" },
 	iCursor = { link = "Cursor" },
 	lCursor = { link = "Cursor" },
-	CursorIM = { link = "Cursor" },
+	CursorIM = { link = "CursoR" },
 	CursorColumn = { bg = p.bg1 },
 	CursorLine = { bg = p.bg1 },
 	ColorColumn = { bg = p.bg1 },
@@ -28,10 +28,10 @@ groups.common = {
 	LineNr = { fg = p.gray },
 	Conceal = { fg = p.gray, bg = p.bg1 },
 
-	DiffAdd    = { fg = p.none, bg = p.diff_add },
-	DiffChange = { fg = p.none, bg = p.diff_change },
-	DiffDelete = { fg = p.none, bg = p.diff_delete },
-	DiffText   = { fg = p.none, bg = p.diff_text },
+	DiffAdd    = { fg = p.none, bg = p.syntax.diff.add.bg },
+	DiffChange = { fg = p.none, bg = p.syntax.diff.change.bg },
+	DiffDelete = { fg = p.none, bg = p.syntax.diff.delete.bg },
+	DiffText   = { fg = p.none, bg = p.syntax.diff.text.bg },
 
 	Directory = { fg = p.blue },
 	ErrorMsg = { fg = p.red, bold = true },
@@ -75,9 +75,10 @@ groups.common = {
 	Title = { fg = p.cyan },
 }
 
+-- stylua: ignore
 groups.syntax = {
 	-- :help group-name
-	Comment      = { fg = p.comment },              -- A Comment
+	Comment      = { fg = p.syntax.comment },       -- A Comment
 
 	Constant     = { fg = p.cyan },                 -- Any Constant
 	String       = { fg = p.green },                -- A string literal "like this"
@@ -112,7 +113,7 @@ groups.syntax = {
 	SpecialChar    = { link = "Special" },             -- special character in a constant
 	Tag            = { fg = p.green, underline=true }, -- you can use CTRL-] on this
 	Delimiter      = { fg = p.light_gray },            -- character that needs attention
-	SpecialComment = { fg = p.comment },               -- special things inside a comment
+	SpecialComment = { fg = p.syntax.comment },        -- special things inside a comment
 	Debug          = { fg = p.orange },                -- debugging statements
 
 	Underlined = { fg = p.violet, underline = true }, -- text that stands out, HTML links
@@ -236,24 +237,25 @@ groups.lsp = {
 
 groups.diagnostics = {
 
-	DiagnosticError = { fg=p.diag_error },
-	DiagnosticHint  = { fg=p.diag_hint },
-	DiagnosticInfo  = { fg=p.diag_info },
-	DiagnosticWarn  = { fg=p.diag_warning },
+	DiagnosticError = { fg=p.syntax.diag.error.fg },
+	DiagnosticHint  = { fg=p.syntax.diag.hint.fg },
+	DiagnosticInfo  = { fg=p.syntax.diag.info.fg },
+	DiagnosticWarn  = { fg=p.syntax.diag.warning.fg },
 
-	DiagnosticVirtualTextError = { fg=p.diag_error, bg=util.darken(p.diag_error, 0.1, p.bg0) },
-	DiagnosticVirtualTextHint  = { fg=p.diag_hint, bg=util.darken(p.diag_hint, 0.1, p.bg0) },
-	DiagnosticVirtualTextInfo  = { fg=p.diag_info, bg=util.darken(p.diag_info, 0.1, p.bg0) },
-	DiagnosticVirtualTextWarn  = { fg=p.diag_warning, bg=util.darken(p.diag_warning, 0.1, p.bg0) },
+	DiagnosticVirtualTextError = { fg=p.syntax.diag.error.fg, bg=util.darken(p.syntax.diag.error.fg, 0.1, p.bg0) },
+	DiagnosticVirtualTextHint  = { fg=p.syntax.diag.hint.fg, bg=util.darken(p.syntax.diag.hint.fg, 0.1, p.bg0) },
+	DiagnosticVirtualTextInfo  = { fg=p.syntax.diag.info.fg, bg=util.darken(p.syntax.diag.info.fg, 0.1, p.bg0) },
+	DiagnosticVirtualTextWarn  = { fg=p.syntax.diag.warning.fg, bg=util.darken(p.syntax.diag.warning.fg, 0.1, p.bg0) },
 
-	DiagnosticUnderlineError = { undercurl=true, sp = p.diag_error },
-	DiagnosticUnderlineHint  = { undercurl=true, sp = p.diag_hint },
-	DiagnosticUnderlineInfo  = { undercurl=true, sp = p.diag_info },
-	DiagnosticUnderlineWarn  = { undercurl=true, sp = p.diag_warning },
+	DiagnosticUnderlineError = { undercurl=true, sp = p.syntax.diag.error.fg },
+	DiagnosticUnderlineHint  = { undercurl=true, sp = p.syntax.diag.hint.fg },
+	DiagnosticUnderlineInfo  = { undercurl=true, sp = p.syntax.diag.info.fg },
+	DiagnosticUnderlineWarn  = { undercurl=true, sp = p.syntax.diag.warning.fg },
 
 }
 
 groups.plugins = {
+	-- stylua: ignore start
 	lsp = {
 		LspDiagnosticsDefaultError           = { link='DiagnosticError' },
 		LspDiagnosticsDefaultHint            = { link='DiagnosticHint' },
@@ -296,6 +298,7 @@ groups.plugins = {
 		CocInfoSign    = { link='DiagnosticInfo' },
 		CocWarningSign = { link='DiagnosticWarn' },
 	},
+	-- stylua: ignore end
 
 	barbar = {
 		BufferCurrent = { bold = true },
@@ -454,6 +457,7 @@ groups.plugins = {
 		NavicSeparator = { fg = p.light_gray },
 	},
 
+	-- stylua: ignore
 	rainbow = {
 		RainbowRed    = { fg = p.red },
 		RainbowOrange = { fg = p.orange },
