@@ -1,6 +1,6 @@
 local p = require("caironoon.palette")
-local cfg = vim.g.caironoon_config
 local util = require("caironoon.util")
+local opts = require("caironoon.config").options
 
 local M = {}
 local groups = { langs = {}, plugins = {} }
@@ -8,12 +8,12 @@ local groups = { langs = {}, plugins = {} }
 -- The builtin highlighting groups.
 -- :help highlight-groups
 groups.common = {
-	Normal      = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
-	Terminal    = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
-	EndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg0, bg = cfg.transparent and p.none or p.bg0 },
-	FoldColumn  = { fg = p.fg, bg = cfg.transparent and p.none or p.bg1 },
-	Folded      = { fg = p.fg, bg = cfg.transparent and p.none or p.bg1 },
-	SignColumn  = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+	Normal      = { fg = p.fg, bg = opts.transparent and p.none or p.bg0 },
+	Terminal    = { fg = p.fg, bg = opts.transparent and p.none or p.bg0 },
+	EndOfBuffer = { fg = opts.ending_tildes and p.bg2 or p.bg0, bg = opts.transparent and p.none or p.bg0 },
+	FoldColumn  = { fg = p.fg, bg = opts.transparent and p.none or p.bg1 },
+	Folded      = { fg = p.fg, bg = opts.transparent and p.none or p.bg1 },
+	SignColumn  = { fg = p.fg, bg = opts.transparent and p.none or p.bg0 },
 
 	ToolbarLine = { fg = p.fg },
 	Cursor = { reverse = true },
@@ -382,11 +382,11 @@ groups.plugins = {
 	},
 
 	neo_tree = {
-		NeoTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
-		NeoTreeNormalNC = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
-		NeoTreeVertSplit = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
-		NeoTreeWinSeparator = { fg = p.bg1, bg = cfg.transparent and p.none or p.bg1 },
-		NeoTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
+		NeoTreeNormal = { fg = p.fg, bg = opts.transparent and p.none or p.bg_d },
+		NeoTreeNormalNC = { fg = p.fg, bg = opts.transparent and p.none or p.bg_d },
+		NeoTreeVertSplit = { fg = p.bg1, bg = opts.transparent and p.none or p.bg1 },
+		NeoTreeWinSeparator = { fg = p.bg1, bg = opts.transparent and p.none or p.bg1 },
+		NeoTreeEndOfBuffer = { fg = opts.ending_tildes and p.bg2 or p.bg_d, bg = opts.transparent and p.none or p.bg_d },
 		NeoTreeRootName = { fg = p.orange, bold = true },
 		NeoTreeGitAdded = { fg = p.green },
 		NeoTreeGitDeleted = { fg = p.red },
@@ -417,9 +417,9 @@ groups.plugins = {
 	},
 
 	nvim_tree = {
-		NvimTreeNormal = { fg = p.fg, bg = cfg.transparent and p.none or p.bg_d },
-		NvimTreeVertSplit = { fg = p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
-		NvimTreeEndOfBuffer = { fg = cfg.ending_tildes and p.bg2 or p.bg_d, bg = cfg.transparent and p.none or p.bg_d },
+		NvimTreeNormal = { fg = p.fg, bg = opts.transparent and p.none or p.bg_d },
+		NvimTreeVertSplit = { fg = p.bg_d, bg = opts.transparent and p.none or p.bg_d },
+		NvimTreeEndOfBuffer = { fg = opts.ending_tildes and p.bg2 or p.bg_d, bg = opts.transparent and p.none or p.bg_d },
 		NvimTreeRootFolder = { fg = p.orange, bold = true },
 		NvimTreeGitDirty = { fg = p.yellow },
 		NvimTreeGitNew = { fg = p.green },
@@ -539,7 +539,7 @@ groups.plugins = {
 		MiniStarterFooter = { fg = p.dark_red, italic = true },
 		MiniStarterHeader = { fg = p.yellow },
 		MiniStarterInactive = { fg = p.gray },
-		MiniStarterItem = { fg = p.fg, bg = cfg.transparent and p.none or p.bg0 },
+		MiniStarterItem = { fg = p.fg, bg = opts.transparent and p.none or p.bg0 },
 		MiniStarterItemBullet = { fg = p.gray },
 		MiniStarterItemPrefix = { fg = p.yellow },
 		MiniStarterSection = { fg = p.light_gray },
