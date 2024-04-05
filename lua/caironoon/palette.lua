@@ -1,4 +1,5 @@
 local oc = require("caironoon.colors.open-color")
+local hsluv = require("caironoon.colors.hsluv")
 local options = require("caironoon.config").options
 
 local palette = {
@@ -148,7 +149,7 @@ local palette = {
 				diff = {
 					add    = {
 						fg = oc.green[10],
-						bg = oc.violet[1],
+						bg = oc.green[1],
 					},
 					delete = { bg = oc.red[2] },
 					change = { bg = oc.blue[2] },
@@ -167,15 +168,15 @@ local palette = {
 		},
 
 		hsluv = {
-			black = oc.black,
-			bg0 = oc.white,
+			black = hsluv.black,
+			bg0 = hsluv.white,
 			bg1 = oc.gray[3],
 			bg2 = oc.gray[4],
 			bg3 = oc.gray[5],
 			bg_d = oc.gray[6],
 			bg_blue = oc.blue[4],
 			bg_yellow = oc.yellow[5],
-			fg = oc.black,
+			fg = hsluv.black,
 
 			grey = oc.gray[8],
 			red = oc.red[10],
@@ -202,12 +203,21 @@ local palette = {
 
 				diff = {
 					add    = {
-						fg = oc.green[10],
-						bg = oc.yellow[1],
+						fg = hsluv.color(hsluv.hues.green, 100),
+						bg = hsluv.color(hsluv.hues.green,   5),
 					},
-					delete = { bg = oc.red[2] },
-					change = { bg = oc.blue[2] },
-					text   = { bg = oc.gray[5] },
+					delete = {
+						fg = hsluv.color(hsluv.hues.red, 100),
+						bg = hsluv.color(hsluv.hues.red,   5),
+					},
+					change = {
+						fg = hsluv.color(hsluv.hues.blue, 100),
+						bg = hsluv.color(hsluv.hues.blue,   5),
+					},
+					text   = {
+						fg = hsluv.gray(90),
+						bg = hsluv.gray(10),
+					},
 				},
 
 				diag = {
