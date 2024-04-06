@@ -7,14 +7,17 @@ local palette = {
 
 		open_color = {
 			black = oc.black,
-			bg0 = oc.gray[10],
-			bg1 = oc.gray[9],
-			bg2 = oc.gray[8],
-			bg3 = oc.gray[7],
-			bg_d = oc.black,
-			bg_blue = oc.blue[5],
-			bg_yellow = oc.yellow[2],
 			fg = oc.gray[5],
+			bg = {
+				[1] = oc.gray[10],
+				[2] = oc.gray[9],
+				[3] = oc.gray[8],
+				[4] = oc.gray[7],
+
+				dark = oc.black,
+				blue = oc.blue[5],
+				yellow = oc.yellow[2],
+			},
 
 			gray = oc.gray[7],
 			red = oc.red[4],
@@ -59,14 +62,17 @@ local palette = {
 
 		hsluv = {
 			black = oc.black,
-			bg0 = oc.gray[10],
-			bg1 = oc.gray[9],
-			bg2 = oc.gray[8],
-			bg3 = oc.gray[7],
-			bg_d = oc.black,
-			bg_blue = oc.blue[5],
-			bg_yellow = oc.yellow[2],
 			fg = oc.gray[5],
+			bg = {
+				[1] = oc.gray[10],
+				[2] = oc.gray[9],
+				[3] = oc.gray[8],
+				[4] = oc.gray[7],
+
+				dark = oc.black,
+				blue = oc.blue[5],
+				yellow = oc.yellow[2],
+			},
 
 			gray = oc.gray[7],
 			red = oc.red[4],
@@ -114,14 +120,17 @@ local palette = {
 	light = {
 		open_color = {
 			black = oc.black,
-			bg0 = oc.white,
-			bg1 = oc.gray[3],
-			bg2 = oc.gray[4],
-			bg3 = oc.gray[5],
-			bg_d = oc.gray[6],
-			bg_blue = oc.blue[4],
-			bg_yellow = oc.yellow[5],
 			fg = oc.black,
+			bg = {
+				[1] = oc.white,
+				[2] = oc.gray[3],
+				[3] = oc.gray[4],
+				[4] = oc.gray[5],
+
+				dark = oc.gray[6],
+				blue = oc.blue[4],
+				yellow = oc.yellow[5],
+			},
 
 			grey = oc.gray[8],
 			red = oc.red[10],
@@ -169,14 +178,17 @@ local palette = {
 
 		hsluv = {
 			black = hsluv.black,
-			bg0 = hsluv.white,
-			bg1 = oc.gray[3],
-			bg2 = oc.gray[4],
-			bg3 = oc.gray[5],
-			bg_d = oc.gray[6],
-			bg_blue = oc.blue[4],
-			bg_yellow = oc.yellow[5],
 			fg = hsluv.black,
+			bg = {
+				[1] = hsluv.white,
+				[2] = oc.gray[3],
+				[3] = oc.gray[4],
+				[4] = oc.gray[5],
+
+				dark = oc.gray[6],
+				blue = oc.blue[4],
+				yellow = oc.yellow[5],
+			},
 
 			grey = oc.gray[8],
 			red = oc.red[10],
