@@ -2,10 +2,120 @@ local oc = require("caironoon.colors.open-color")
 local hsluv = require("caironoon.colors.hsluv")
 local options = require("caironoon.config").options
 
+local term = {
+	dark = {
+		fg = {
+			base = "LightGray",
+			gray    = "LightGray",
+			red     = "LightRed",
+			yellow  = "LightYellow",
+			green   = "LightGreen",
+			cyan    = "LightCyan",
+			blue    = "LightBlue",
+			magenta = "LightMagenta",
+		},
+		bg = {
+			[1] = "Black",
+			[2] = "DarkGray",
+			[3] = "LightGray",
+			[4] = "White",
+			gray    = "DarkGray",
+			red     = "DarkRed",
+			yellow  = "DarkYellow",
+			green   = "DarkGreen",
+			cyan    = "DarkCyan",
+			blue    = "DarkBlue",
+			magenta = "DarkMagenta",
+		},
+		syntax = {
+			comment = "DarkGray",
+			diff = {
+				add    = {
+					fg = "LightGreen",
+					bg = "DarkGreen",
+				},
+				delete = {
+					fg = "LightRed",
+					bg = "DarkRed",
+				},
+				change = {
+					fg = "LightBlue",
+					bg = "DarkBlue",
+				},
+				text   = {
+					fg = "LightGray",
+					bg = "DarkGray",
+				},
+			},
+
+			diag = {
+				error   = { fg = "LightRed" },
+				warning = { fg = "LightYellow" },
+				info    = { fg = "LightCyan" },
+				hint    = { fg = "LightMagenta" },
+			},
+		}
+	},
+	light = {
+		fg = {
+			base = "Black",
+			gray    = "DarkGray",
+			red     = "DarkRed",
+			yellow  = "DarkYellow",
+			green   = "DarkGreen",
+			cyan    = "DarkCyan",
+			blue    = "DarkBlue",
+			magenta = "DarkMagenta",
+		},
+		bg = {
+			[1] = "White",
+			[2] = "LightGray",
+			[3] = "DarkGray",
+			[4] = "Black",
+			gray    = "LightGray",
+			red     = "LightRed",
+			yellow  = "LightYellow",
+			green   = "LightGreen",
+			cyan    = "LightCyan",
+			blue    = "LightBlue",
+			magenta = "LightMagenta",
+		},
+		syntax = {
+			comment = "LighGray",
+			diff = {
+				add    = {
+					fg = "DarkGreen",
+					bg = "LightGreen",
+				},
+				delete = {
+					fg = "DarkRed",
+					bg = "LightRed",
+				},
+				change = {
+					fg = "DarkBlue",
+					bg = "LightBlue",
+				},
+				text   = {
+					fg = "DarkGray",
+					bg = "LightGray",
+				},
+			},
+
+			diag = {
+				error   = { fg = "DarkRed" },
+				warning = { fg = "DarkYellow" },
+				info    = { fg = "DarkCyan" },
+				hint    = { fg = "DarkMagenta" },
+			},
+		}
+	},
+}
+
 local palette = {
 	dark = {
 
 		open_color = {
+			term = term.dark,
 			black = oc.black,
 			fg = oc.gray[5],
 			bg = {
@@ -61,6 +171,7 @@ local palette = {
 		},
 
 		hsluv = {
+			term = term.dark,
 			black = oc.black,
 			fg = oc.gray[5],
 			bg = {
@@ -119,6 +230,7 @@ local palette = {
 
 	light = {
 		open_color = {
+			term = term.light,
 			black = oc.black,
 			fg = oc.black,
 			bg = {
@@ -177,6 +289,7 @@ local palette = {
 		},
 
 		hsluv = {
+			term = term.light,
 			black = hsluv.black,
 			fg = hsluv.black,
 			bg = {

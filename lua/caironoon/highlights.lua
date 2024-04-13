@@ -8,30 +8,60 @@ local groups = { langs = {}, plugins = {} }
 -- The builtin highlighting groups.
 -- :help highlight-groups
 groups.common = {
-	Normal      = { fg = p.fg, bg = opts.transparent and p.none or p.bg[1] },
-	Terminal    = { fg = p.fg, bg = opts.transparent and p.none or p.bg[1] },
-	EndOfBuffer = { fg = opts.ending_tildes and p.bg[3] or p.bg[1], bg = opts.transparent and p.none or p.bg[1] },
-	FoldColumn  = { fg = p.fg, bg = opts.transparent and p.none or p.bg[2] },
-	Folded      = { fg = p.fg, bg = opts.transparent and p.none or p.bg[2] },
-	SignColumn  = { fg = p.fg, bg = opts.transparent and p.none or p.bg[1] },
+	Normal = {
+		fg = p.fg, bg = opts.transparent and p.none or p.bg[1],
+		ctermfg = p.term.fg.base, ctermbg = p.term.bg[1],
+	},
+	Terminal = { link = "Normal" },
+	EndOfBuffer = {
+		fg = opts.ending_tildes and p.bg[3] or p.bg[1], bg = opts.transparent and p.none or p.bg[1],
+		ctermfg = opts.ending_tildes and p.term.bg[3] or p.term.bg[1], ctermbg =  p.term.bg[1]
+	},
+	Folded = {
+		fg = p.fg, bg = opts.transparent and p.none or p.bg[2],
+		ctermfg = p.term.fg.base, ctermbg=p.term.bg[2],
+	},
+	FoldColumn  = { link = "Folded" },
+	SignColumn  = {
+		fg = p.fg, bg = opts.transparent and p.none or p.bg[1],
+		ctermfg = p.term.fg.base, ctermbg = p.term.bg[1],
+	},
 
-	ToolbarLine = { fg = p.fg },
+	ToolbarLine = { fg = p.fg, ctermfg = p.term.fg.base},
 	Cursor = { reverse = true },
 	vCursor = { link = "Cursor" },
 	iCursor = { link = "Cursor" },
 	lCursor = { link = "Cursor" },
-	CursorIM = { link = "CursoR" },
-	CursorColumn = { bg = p.bg[2] },
-	CursorLine = { bg = p.bg[2] },
-	ColorColumn = { bg = p.bg[2] },
-	CursorLineNr = { fg = p.fg },
-	LineNr = { fg = p.gray },
-	Conceal = { fg = p.gray, bg = p.bg[2] },
+	CursorIM = { link = "Cursor" },
+	CursorLine = { bg = p.bg[2], ctermbg = p.term.bg[2] },
+	CursorColumn = { link = "CursorLine" },
+	ColorColumn = { link = "CursorLine" },
+	CursorLineNr = {
+		fg = p.fg, bold=true,
+		ctermfg = p.term.fg.base,
+	},
+	LineNr = { fg = p.gray, ctermfg = p.term.fg.gray },
+	Conceal = {
+		fg = p.gray, bg = p.bg[2],
+		ctermfg=p.term.fg.base, ctermbg=p.term.bg[2],
+	},
 
-	DiffAdd    = { fg = p.none, bg = p.syntax.diff.add.bg },
-	DiffChange = { fg = p.none, bg = p.syntax.diff.change.bg },
-	DiffDelete = { fg = p.none, bg = p.syntax.diff.delete.bg },
-	DiffText   = { fg = p.none, bg = p.syntax.diff.text.bg },
+	DiffAdd = {
+		fg = p.none, bg = p.syntax.diff.add.bg,
+		ctermfg = p.none, ctermbg= p.term.syntax.diff.add.bg,
+	},
+	DiffChange = {
+		fg = p.none, bg = p.syntax.diff.change.bg,
+		ctermfg = p.none, ctermbg= p.term.syntax.diff.change.bg,
+	},
+	DiffDelete = {
+		fg = p.none, bg = p.syntax.diff.delete.bg,
+		ctermfg = p.none, ctermbg= p.term.syntax.diff.delete.bg,
+	},
+	DiffText   = {
+		fg = p.none, bg = p.syntax.diff.text.bg,
+		ctermfg = p.none, ctermbg= p.term.syntax.diff.text.bg,
+	},
 
 	Directory = { fg = p.blue },
 	ErrorMsg = { fg = p.red, bold = true },

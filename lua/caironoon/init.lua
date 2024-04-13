@@ -9,7 +9,9 @@ function M.colorscheme(variant)
 	vim.cmd("hi clear")
 	vim.cmd("syntax reset")
 
-	vim.o.termguicolors = true
+	if vim.env.TERM ~= "linux" then
+		vim.o.termguicolors = true
+	end
 
 	vim.g.colors_name = "caironoon"
 	require("caironoon.highlights").setup()
