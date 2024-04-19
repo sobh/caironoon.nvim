@@ -28,7 +28,7 @@ groups.common = {
 	},
 
 	ToolbarLine = { fg = p.fg, ctermfg = p.term.fg.base},
-	Cursor = { reverse = true },
+	Cursor = { fg=p.bg[1], bg=p.fg },
 	vCursor = { link = "Cursor" },
 	iCursor = { link = "Cursor" },
 	lCursor = { link = "Cursor" },
