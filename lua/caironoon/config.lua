@@ -2,8 +2,6 @@ local M = {}
 
 M.options = {
 	-- Main options --
-	style = "light", -- choose between 'dark', 'light'
-	variant = "open_color",   -- "open_color", "hsluv"
 	transparent = false, -- don't set background
 	term_colors = true, -- if true enable the terminal
 	ending_tildes = false, -- show the end-of-buffer tildes

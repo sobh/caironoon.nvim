@@ -2,9 +2,7 @@ local config = require("caironoon.config")
 local M = {}
 
 ---Apply the colorscheme (same as ':colorscheme caironoon')
-function M.colorscheme(variant)
-
-	config.extend({ variant = variant })
+function M.colorscheme()
 
 	vim.cmd("hi clear")
 	vim.cmd("syntax reset")
