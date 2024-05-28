@@ -456,7 +456,7 @@ groups.plugins = {
 		NvimTreeGitDeleted = { fg = p.red },
 		NvimTreeSpecialFile = { fg = p.yellow, underline = true },
 		NvimTreeIndentMarker = { fg = p.fg },
-		NvimTreeImageFile = { fg = p.dark_purple },
+		NvimTreeImageFile = { fg = p.violet },
 		NvimTreeSymlink = { fg = p.grape },
 		NvimTreeFolderName = { fg = p.blue },
 	},
@@ -475,7 +475,7 @@ groups.plugins = {
 		DashboardShortCut = { fg = p.blue },
 		DashboardHeader = { fg = p.yellow },
 		DashboardCenter = { fg = p.cyan },
-		DashboardFooter = { fg = p.dark_red, italic = true },
+		DashboardFooter = { fg = p.red, italic = true },
 	},
 
 	outline = {
@@ -566,7 +566,7 @@ groups.plugins = {
 		MiniJump2dSpot = { fg = p.red, bold = true, nocombine = true },
 
 		MiniStarterCurrent = { nocombine = true },
-		MiniStarterFooter = { fg = p.dark_red, italic = true },
+		MiniStarterFooter = { fg = p.red, italic = true },
 		MiniStarterHeader = { fg = p.yellow },
 		MiniStarterInactive = { fg = p.gray },
 		MiniStarterItem = { fg = p.fg, bg = opts.transparent and p.none or p.bg[1] },

@@ -112,7 +112,6 @@ local term = {
 local palette = {
 	dark = {
 			term = term.dark,
-			black = oc.black,
 			fg = oc.gray[5],
 			bg = {
 				[1] = oc.gray[10],
@@ -139,11 +138,6 @@ local palette = {
 			grape = oc.grape[4],
 			pink = oc.pink[4],
 
-			dark_cyan = oc.cyan[10],
-			dark_red = oc.red[10],
-			dark_yellow = oc.yellow[10],
-			dark_purple = oc.grape[10],
-
 			syntax = {
 				comment = oc.gray[7],
 
@@ -167,7 +161,6 @@ local palette = {
 
 	light = {
 		term = term.light,
-		black = oc.black,
 		fg = oc.black,
 		bg = {
 			[1] = oc.white,
@@ -193,11 +186,6 @@ local palette = {
 		violet = oc.violet[10],
 		grape = oc.grape[10],
 		pink = oc.pink[10],
-
-		dark_cyan = oc.cyan[10],
-		dark_red = oc.red[10],
-		dark_yellow = oc.yellow[10],
-		dark_purple = oc.grape[10],
 
 		syntax = {
 			comment = oc.gray[8],
