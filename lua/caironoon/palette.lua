@@ -1,4 +1,15 @@
-local oc = require("caironoon.colors.open-color")
+local s = require("caironoon.swatches")
+
+local idx = {
+	light = {
+		fg = 10;
+		bg = 1;
+	},
+	dark = {
+		fg = 3;
+		bg = 7;
+	}
+}
 
 local term = {
 	dark = {
@@ -109,117 +120,186 @@ local term = {
 	},
 }
 
-local palette = {
+local gui = {
+
 	dark = {
-			term = term.dark,
-			fg = oc.gray[5],
-			bg = {
-				[1] = oc.gray[10],
-				[2] = oc.gray[9],
-				[3] = oc.gray[8],
-				[4] = oc.gray[7],
 
-				dark = oc.black,
-				blue = oc.blue[5],
-				yellow = oc.yellow[2],
-			},
+		fg = {
+			base = s.gray[3],
 
-			gray = oc.gray[7],
-			red = oc.red[4],
-			orange = oc.orange[4],
-			yellow = oc.yellow[4],
-			lime = oc.lime[4],
-			green = oc.green[4],
-			teal = oc.teal[4],
-			cyan = oc.cyan[4],
-			blue = oc.blue[4],
-			indigo = oc.indigo[4],
-			violet = oc.violet[4],
-			grape = oc.grape[4],
-			pink = oc.pink[4],
-
-			syntax = {
-				comment = oc.gray[7],
-
-				diff = {
-					add = { bg = oc.green[10] },
-					delete = { bg = oc.red[10] },
-					change = { bg = oc.blue[10] },
-					text = { bg = oc.gray[9] },
-				},
-
-				diag = {
-					error = { fg = oc.red[10] },
-					warning = { fg = oc.yellow[10] },
-					info = { fg = oc.cyan[10] },
-					hint = { fg = oc.violet[10] },
-				},
-
-			},
-
-	},
-
-	light = {
-		term = term.light,
-		fg = oc.black,
-		bg = {
-			[1] = oc.white,
-			[2] = oc.gray[3],
-			[3] = oc.gray[4],
-			[4] = oc.gray[5],
-
-			dark = oc.gray[6],
-			blue = oc.blue[4],
-			yellow = oc.yellow[5],
+			gray   = s.gray[idx.dark.fg],
+			red    = s.red[idx.dark.fg],
+			orange = s.orange[idx.dark.fg],
+			yellow = s.yellow[idx.dark.fg],
+			lime   = s.lime[idx.dark.fg],
+			green  = s.green[idx.dark.fg],
+			teal   = s.teal[idx.dark.fg],
+			cyan   = s.cyan[idx.dark.fg],
+			blue   = s.blue[idx.dark.fg],
+			indigo = s.indigo[idx.dark.fg],
+			purple = s.purple[idx.dark.fg],
+			violet = s.violet[idx.dark.fg],
+			pink   = s.pink[idx.dark.fg],
 		},
 
-		gray = oc.gray[8],
-		red = oc.red[10],
-		orange = oc.orange[10],
-		yellow = oc.yellow[10],
-		lime = oc.lime[10],
-		green = oc.green[10],
-		teal = oc.teal[10],
-		cyan = oc.cyan[10],
-		blue = oc.blue[10],
-		indigo = oc.indigo[10],
-		violet = oc.violet[10],
-		grape = oc.grape[10],
-		pink = oc.pink[10],
+		bg = {
+			base = {
+				s.gray[10],
+				s.gray[9],
+				s.gray[8],
+				s.gray[7],
+			},
+
+			gray   = s.gray[idx.dark.bg],
+			red    = s.red[idx.dark.bg],
+			orange = s.orange[idx.dark.bg],
+			yellow = s.yellow[idx.dark.bg],
+			lime   = s.lime[idx.dark.bg],
+			green  = s.green[idx.dark.bg],
+			teal   = s.teal[idx.dark.bg],
+			cyan   = s.cyan[idx.dark.bg],
+			blue   = s.blue[idx.dark.bg],
+			indigo = s.indigo[idx.dark.bg],
+			purple = s.purple[idx.dark.bg],
+			violet = s.violet[idx.dark.bg],
+			pink   = s.pink[idx.dark.bg],
+		},
 
 		syntax = {
-			comment = oc.gray[8],
+			comment = s.gray[idx.dark.fg],
 
 			diff = {
 				add    = {
-					fg = oc.green[10],
-					bg = oc.green[1],
+					fg = s.green[idx.dark.fg],
+					bg = s.green[idx.dark.bg],
 				},
 				delete = {
-					fg = oc.red[10],
-					bg = oc.red[1],
+					fg = s.red[idx.dark.fg],
+					bg = s.red[idx.dark.bg],
 				},
 				change = {
-					fg = oc.blue[10],
-					bg = oc.blue[1],
+					fg = s.blue[idx.dark.fg],
+					bg = s.blue[idx.dark.bg],
 				},
 				text   = {
-					fg = oc.gray[10],
-					bg = oc.gray[1],
+					fg = s.gray[idx.dark.fg],
+					bg = s.gray[idx.dark.bg],
 				},
 			},
 
 			diag = {
-				error = { fg = oc.red[10] },
-				warning = { fg = oc.yellow[10] },
-				info = { fg = oc.cyan[10] },
-				hint = { fg = oc.violet[10] },
+				error   = {
+					fg = s.red[idx.dark.fg],
+					bg = s.red[idx.dark.bg],
+				},
+				warning = {
+					fg = s.yellow[idx.dark.fg],
+					bg = s.yellow[idx.dark.bg],
+				},
+				info    = {
+					fg = s.cyan[idx.dark.fg],
+					bg = s.cyan[idx.dark.bg],
+				},
+				hint    = {
+					fg = s.violet[idx.dark.fg],
+					bg = s.violet[idx.dark.bg],
+				},
 			},
-
 		},
 
 	},
 
-}
+	light = {
+		fg = {
+			base = s.black,
 
-return palette[vim.opt.background:get()]
+			gray   = s.gray[idx.light.fg],
+			red    = s.red[idx.light.fg],
+			orange = s.orange[idx.light.fg],
+			yellow = s.yellow[idx.light.fg],
+			lime   = s.lime[idx.light.fg],
+			green  = s.green[idx.light.fg],
+			teal   = s.teal[idx.light.fg],
+			cyan   = s.cyan[idx.light.fg],
+			blue   = s.blue[idx.light.fg],
+			indigo = s.indigo[idx.light.fg],
+			purple = s.purple[idx.light.fg],
+			violet = s.violet[idx.light.fg],
+			pink   = s.pink[idx.light.fg],
+		},
+
+		bg = {
+			base = {
+				s.white,
+				s.gray[2],
+				s.gray[3],
+				s.gray[4],
+			},
+
+			gray   = s.gray[idx.light.bg],
+			red    = s.red[idx.light.bg],
+			orange = s.orange[idx.light.bg],
+			yellow = s.yellow[idx.light.bg],
+			lime   = s.lime[idx.light.bg],
+			green  = s.green[idx.light.bg],
+			teal   = s.teal[idx.light.bg],
+			cyan   = s.cyan[idx.light.bg],
+			blue   = s.blue[idx.light.bg],
+			indigo = s.indigo[idx.light.bg],
+			purple = s.purple[idx.light.bg],
+			violet = s.violet[idx.light.bg],
+			pink   = s.pink[idx.light.bg],
+		},
+		-- Comment
+		syntax = {
+			comment = s.gray[idx.light.fg - 2],
+
+			diff = {
+				add    = {
+					fg = s.green[idx.light.fg],
+					bg = s.green[idx.light.bg],
+				},
+				delete = {
+					fg = s.red[idx.light.fg],
+					bg = s.red[idx.light.bg],
+				},
+				change = {
+					fg = s.blue[idx.light.fg],
+					bg = s.blue[idx.light.bg],
+				},
+				text   = {
+					fg = s.gray[idx.light.fg],
+					bg = s.gray[idx.light.bg],
+				},
+			},
+
+			diag = {
+				error   = {
+					fg = s.red[idx.light.fg],
+					bg = s.red[idx.light.bg],
+				},
+				warning = {
+					fg = s.yellow[idx.light.fg],
+					bg = s.yellow[idx.light.bg],
+				},
+				info    = {
+					fg = s.cyan[idx.light.fg],
+					bg = s.cyan[idx.light.bg],
+				},
+				hint    = {
+					fg = s.violet[idx.light.fg],
+					bg = s.violet[idx.light.bg],
+				},
+			},
+		}
+
+	},
+
+}
+local palette = gui[vim.opt.background:get()]
+palette.term = term[vim.opt.background:get()]
+palette.none = "none"
+palette.white = "#FFFFFF"
+palette.black = "#000000"
+
+return palette

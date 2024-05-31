@@ -155,8 +155,8 @@ return {
 		"#5F3DC4",
 	},
 
-	-- Grape | Hue= 300
-	grape = {
+	-- Purple | Hue= 300
+	purple = {
 		"#F8F0FC",
 		"#F3D9FA",
 		"#EEBEFA",
