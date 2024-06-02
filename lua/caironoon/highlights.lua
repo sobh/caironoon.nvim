@@ -73,7 +73,7 @@ groups.common = {
 	CurSearch        = { fg = p.fg.orange, bg=p.bg.base[1], reverse=true },
 	IncSearch        = { link="CurSearch" },
 	Substitute       = { fg = p.bg.base[1], bg = p.fg.green },
-	MatchParen       = { fg = p.none, bg = p.fg.gray },
+	MatchParen       = { fg = p.fg.base, bg = p.bg.base[4] },
 	NonText          = { fg = p.fg.gray },
 	Whitespace       = { fg = p.bg.base[2] },
 	SpecialKey       = { fg = p.fg.gray },
